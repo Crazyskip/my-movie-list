@@ -7,16 +7,6 @@ import {
 } from "./styles";
 import Link from "next/link";
 
-interface NavLink {
-  name: string;
-  href: string;
-}
-
-const NAV_LINKS: NavLink[] = [
-  { name: "Home", href: "/" },
-  { name: "Posts", href: "/posts" },
-];
-
 const Navbar = () => (
   <NavContainer>
     <Link href="/" passHref>
@@ -24,7 +14,7 @@ const Navbar = () => (
     </Link>
     <NavLinks>
       <NavLinkGroup>
-        <Link href="/" passHref>
+        <Link href="/movies" passHref>
           <NavLink>Movies</NavLink>
         </Link>
         <Link href="/" passHref>
