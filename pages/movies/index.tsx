@@ -1,5 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -27,16 +29,28 @@ const PopularMovies: NextPage = () => {
         {data.results.map((movie: any) => (
           <div
             key={movie.id}
-            style={{ border: "1px solid black", margin: "5px", width: "252px" }}
+            style={{
+              border: "1px solid #aaaaaa",
+              margin: "5px",
+              width: "252px",
+            }}
           >
-            <img
-              src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-              width="250"
-              height="375"
-              alt={movie.title}
-            />
+            <Link href={`/movies/${movie.id}`}>
+              <a>
+                <Image
+                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                  width="250"
+                  height="375"
+                  alt={data.title}
+                />
+              </a>
+            </Link>
             <div style={{ padding: "10px" }}>
-              <h3 style={{ margin: "8px 0" }}>{movie.title}</h3>
+              <Link href={`/movies/${movie.id}`}>
+                <a>
+                  <h3 style={{ margin: "8px 0" }}>{movie.title}</h3>
+                </a>
+              </Link>
               <div>Rating: {movie.vote_average * 10}%</div>
               <div>Released: {movie.release_date}</div>
             </div>

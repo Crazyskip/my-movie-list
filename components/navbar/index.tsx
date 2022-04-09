@@ -17,7 +17,7 @@ const Navbar = () => (
         <Link href="/movies" passHref>
           <NavLink>Movies</NavLink>
         </Link>
-        <Link href="/" passHref>
+        <Link href="/shows" passHref>
           <NavLink>TV Shows</NavLink>
         </Link>
       </NavLinkGroup>
