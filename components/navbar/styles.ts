@@ -3,7 +3,7 @@ import device from "../../commons/breakpoints";
 
 export const NavContainer = styled.nav`
   height: 64px;
-  width: 100vw;
+  width: 100%;
   color: #ffffff;
   background-color: #490082;
   display: flex;
