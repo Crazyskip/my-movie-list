@@ -12,8 +12,6 @@ const PopularShows: NextPage = () => {
   if (error) return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
-  console.log(data);
-
   return (
     <div>
       <Head>

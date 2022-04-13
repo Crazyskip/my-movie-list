@@ -14,11 +14,13 @@ const Movie: NextPage = () => {
   if (error) return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
-  console.log(data);
+  data.release_date = new Date(data.release_date);
 
   return (
     <>
-      <h1>{data.title}</h1>
+      <h1>
+        {data.title} ({data.release_date.getUTCFullYear()})
+      </h1>
       <Image
         src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
         width="250"
