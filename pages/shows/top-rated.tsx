@@ -2,6 +2,7 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import useSWR from "swr";
 import CardsContainer from "../../components/cardsContainer";
+import ContentContainer from "../../components/contentContainer";
 import FilmCard from "../../components/filmCard";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -22,12 +23,14 @@ const TopRatedShows: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <h1>Top Rated TV Shows</h1>
-      <CardsContainer>
-        {data.results.map((movie: any) => (
-          <FilmCard key={movie.id} film={movie} type="shows" />
-        ))}
-      </CardsContainer>
+      <ContentContainer as="main">
+        <h1>Top Rated TV Shows</h1>
+        <CardsContainer>
+          {data.results.map((movie: any) => (
+            <FilmCard key={movie.id} film={movie} type="shows" />
+          ))}
+        </CardsContainer>
+      </ContentContainer>
     </div>
   );
 };

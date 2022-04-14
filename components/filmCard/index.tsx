@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { CardContainer, CardContent, CardImage, CardTitle } from "./styles";
 
-// Returns date in format DD mon YYYY
+// Returns date in format dd mon YYYY
 const getDateString = (dateString: string) => {
   const date = new Date(dateString);
-  const formattedDate = date.toLocaleDateString("en-GB", {
+  const formattedDate = date.toLocaleDateString("en-AU", {
     day: "numeric",
     month: "short",
     year: "numeric",
