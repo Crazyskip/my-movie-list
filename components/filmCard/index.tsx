@@ -12,7 +12,7 @@ const getDateString = (dateString: string) => {
   return formattedDate;
 };
 
-const FilmCard = ({ film, type }: any) => {
+const FilmCard = ({ film, type }: { film: any; type: "movies" | "shows" }) => {
   if (type === "movies" && film.release_date === "") return null;
   if (type === "shows" && film.first_air_date === "") return null;
 

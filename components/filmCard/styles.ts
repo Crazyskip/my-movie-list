@@ -16,7 +16,7 @@ export const CardImage = styled(Image)`
 `;
 
 export const CardContent = styled.div`
-  padding: 10px;
+  padding: 5px 10px;
 `;
 
 export const CardTitle = styled.h3`
