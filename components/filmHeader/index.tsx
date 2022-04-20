@@ -15,6 +15,7 @@ import {
   HeaderContent,
   Overview,
   StyledImage,
+  Tagline,
   Title,
   Year,
 } from "./styles";
@@ -32,19 +33,20 @@ const getDateString = (dateString: string) => {
   return formattedDate;
 };
 
-const FilmHeader = ({ film }: { film: any }) => (
-  <Header>
+const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => (
+  <Header posterImage={`https://image.tmdb.org/t/p/w1280${film.backdrop_path}`}>
     <ContentContainer>
       <FlexContainer>
         <StyledImage
           src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
           width="300"
           height="450"
-          alt={film.title}
+          alt={type === "movie" ? film.title : film.name}
         />
         <HeaderContent>
           <Title>
-            {film.title} <Year>({film.release_date.getUTCFullYear()})</Year>
+            {type === "movie" ? film.title : film.name}{" "}
+            <Year>({film.release_date.getUTCFullYear()})</Year>
           </Title>
           <Description>
             {getDateString(film.release_date)} -{" "}
@@ -55,15 +57,19 @@ const FilmHeader = ({ film }: { film: any }) => (
                   {genre.name}
                 </span>
               )
-            )}{" "}
-            -{" "}
-            {`${Math.floor(film.runtime / 60)}h ${Math.floor(
-              film.runtime % 60
-            )}m`}
+            )}
+            {type === "movie"
+              ? ` - ${Math.floor(film.runtime / 60)}h ${Math.floor(
+                  film.runtime % 60
+                )}m`
+              : null}
           </Description>
           <FunctionsContainer>
             <span>
-              <FontAwesomeIcon style={{ marginRight: "5px" }} icon={faStar} />
+              <FontAwesomeIcon
+                style={{ marginRight: "5px", color: "#e6d817" }}
+                icon={faStar}
+              />
               {film.vote_average}
             </span>
             <FunctionButton>
@@ -76,6 +82,7 @@ const FilmHeader = ({ film }: { film: any }) => (
               <FontAwesomeIcon icon={faList} />
             </FunctionButton>
           </FunctionsContainer>
+          <Tagline>{film.tagline}</Tagline>
           <Overview>
             <h3>Overview</h3>
             <div>{film.overview}</div>

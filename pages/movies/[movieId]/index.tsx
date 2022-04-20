@@ -20,7 +20,7 @@ const Movie: NextPage = () => {
 
   return (
     <>
-      <FilmHeader film={data} />
+      <FilmHeader film={data} type="movie" />
     </>
   );
 };

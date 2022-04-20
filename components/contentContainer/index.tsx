@@ -8,22 +8,16 @@ interface Props {
 }
 
 const Container = styled.div`
-  margin: 0 10px;
+  padding: 0 10px;
+  margin: 0 auto;
+  max-width: 1400px;
 
   @media only screen and (${device.sm}) {
-    margin: 0 20px;
+    padding: 0 20px;
   }
 
   @media only screen and (${device.md}) {
-    margin: 0 50px;
-  }
-
-  @media only screen and (${device.lg}) {
-    margin: 0 100px;
-  }
-
-  @media only screen and (${device.xl}) {
-    margin: 0 150px;
+    padding: 0 50px;
   }
 `;
 

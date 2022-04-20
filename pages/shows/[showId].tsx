@@ -1,7 +1,7 @@
 import { NextPage } from "next";
-import Image from "next/image";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import FilmHeader from "../../components/filmHeader";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -14,17 +14,13 @@ const Show: NextPage = () => {
   if (error) return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
+  data.release_date = new Date(data.first_air_date);
+
   console.log(data);
 
   return (
     <>
-      <h1>{data.name}</h1>
-      <Image
-        src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-        width="250"
-        height="375"
-        alt={data.name}
-      />
+      <FilmHeader film={data} type="show" />
     </>
   );
 };

@@ -21,5 +21,5 @@ export const CardContent = styled.div`
 
 export const CardTitle = styled.h3`
   font-size: 1rem;
-  margin: 8px 0;
+  margin: 5px 0;
 `;

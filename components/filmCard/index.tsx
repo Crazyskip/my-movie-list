@@ -1,3 +1,5 @@
+import { faStar } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { CardContainer, CardContent, CardImage, CardTitle } from "./styles";
 
@@ -35,7 +37,11 @@ const FilmCard = ({ film, type }: { film: any; type: "movies" | "shows" }) => {
             <CardTitle>{type === "movies" ? film.title : film.name}</CardTitle>
           </a>
         </Link>
-        <div>Rating: {film.vote_average * 10}%</div>
+        <FontAwesomeIcon
+          style={{ marginRight: "5px", color: "#e6d817" }}
+          icon={faStar}
+        />
+        {film.vote_average}
         <div>
           {type === "movies"
             ? getDateString(film.release_date)

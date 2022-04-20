@@ -1,13 +1,20 @@
 import styled from "styled-components";
 import Image from "next/image";
 
-export const Header = styled.div`
+type HeaderProps = {
+  posterImage: string;
+};
+
+export const Header = styled.div<HeaderProps>`
   width: 100%;
-  background: linear-gradient(
-    to bottom right,
-    rgba(41, 41, 104, 1),
-    rgba(41, 41, 104, 0.84)
-  );
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: linear-gradient(
+      to bottom right,
+      rgba(32, 32, 32, 1),
+      rgba(32, 32, 32, 0.65)
+    ),
+    url(${(props) => props.posterImage});
   color: #ffffff;
 `;
 
@@ -25,6 +32,7 @@ export const HeaderContent = styled.div`
   flex-direction: column;
   margin: 20px 0 0 30px;
   width: calc(100% - 340px);
+  z-index: 1;
 `;
 
 export const Title = styled.h1`
@@ -59,6 +67,15 @@ export const FunctionButton = styled.div`
   justify-content: center;
   align-items: center;
   cursor: pointer;
+`;
+
+export const Tagline = styled.h3`
+  margin-bottom: 0;
+  font-size: 1.1em;
+  font-weight: 300;
+  font-style: italic;
+  opacity: 0.8;
+  letter-spacing: 0.5px;
 `;
 
 export const Overview = styled.div`
