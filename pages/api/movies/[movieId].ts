@@ -9,11 +9,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } = req;
 
   if (method === "GET") {
-    const response = await fetch(
+    const detailsPromise = fetch(
       `https://api.themoviedb.org/3/movie/${movieId}?api_key=${TMDB_API_KEY}&language=en-US`
     );
 
-    const movie = await response.json();
+    const castPromise = fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=en-US`
+    );
+
+    const [detailsResponse, castResponse] = await Promise.all([
+      detailsPromise,
+      castPromise,
+    ]);
+
+    const [movie, { cast, crew }] = await Promise.all([
+      detailsResponse.json(),
+      castResponse.json(),
+    ]);
+
+    movie.cast = cast;
+    movie.crew = crew;
 
     return res.status(200).json(movie);
   }
