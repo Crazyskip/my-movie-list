@@ -5,6 +5,7 @@ import {
   faStar,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import dynamic from "next/dynamic";
 import ContentContainer from "../contentContainer";
 import {
   Description,
@@ -19,6 +20,10 @@ import {
   Title,
   Year,
 } from "./styles";
+
+const ReactTooltip = dynamic(() => import("react-tooltip"), {
+  ssr: false,
+});
 
 // Returns date in format dd/mm/YYYY
 const getDateString = (dateString: string) => {
@@ -72,13 +77,13 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => (
               />
               {film.vote_average}
             </span>
-            <FunctionButton>
+            <FunctionButton data-tip={`Add ${type} to favourite list`}>
               <FontAwesomeIcon icon={faHeart} />
             </FunctionButton>
-            <FunctionButton>
+            <FunctionButton data-tip={`Add ${type} to watchlist`}>
               <FontAwesomeIcon icon={faBookmark} />
             </FunctionButton>
-            <FunctionButton>
+            <FunctionButton data-tip={`Add ${type} to custom list`}>
               <FontAwesomeIcon icon={faList} />
             </FunctionButton>
           </FunctionsContainer>
@@ -90,6 +95,7 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => (
         </HeaderContent>
       </FlexContainer>
     </ContentContainer>
+    <ReactTooltip type="light" effect="solid" place="bottom" />
   </Header>
 );
 

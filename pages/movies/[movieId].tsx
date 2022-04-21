@@ -1,7 +1,7 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import FilmHeader from "../../../components/filmHeader";
+import FilmHeader from "../../components/filmHeader";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
