@@ -17,18 +17,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${TMDB_API_KEY}&language=en-US`
     );
 
-    const [detailsResponse, castResponse] = await Promise.all([
+    const reviewsPromise = fetch(
+      `https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${TMDB_API_KEY}&page=1&language=en-US`
+    );
+
+    const [detailsResponse, castResponse, reviewsResponse] = await Promise.all([
       detailsPromise,
       castPromise,
+      reviewsPromise,
     ]);
 
-    const [movie, { cast, crew }] = await Promise.all([
+    const [movie, { cast, crew }, reviews] = await Promise.all([
       detailsResponse.json(),
       castResponse.json(),
+      reviewsResponse.json(),
     ]);
 
     movie.cast = cast;
     movie.crew = crew;
+    movie.reviews = reviews.results;
 
     return res.status(200).json(movie);
   }
