@@ -87,3 +87,26 @@ export const Overview = styled.div`
     font-weight: 600;
   }
 `;
+
+export const DetailsContainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+`;
+
+export const Detail = styled.div`
+  margin-left: 50px;
+
+  h4 {
+    margin: 0;
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  &:first-child {
+    margin: 0px;
+  }
+`;

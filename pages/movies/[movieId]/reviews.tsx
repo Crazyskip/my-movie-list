@@ -4,7 +4,7 @@ import useSWR from "swr";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Cast: NextPage = () => {
+const Reviews: NextPage = () => {
   const router = useRouter();
   const { movieId } = router.query;
 
@@ -19,9 +19,9 @@ const Cast: NextPage = () => {
 
   return (
     <>
-      <h1>{data.title} Cast</h1>
+      <h1>{data.title} Reviews</h1>
     </>
   );
 };
 
-export default Cast;
+export default Reviews;

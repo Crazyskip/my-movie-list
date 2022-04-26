@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 export const ReviewContainer = styled.div`
-  margin: 5px;
   padding: 20px;
   width: 100%;
   border: 1px solid #cccccc;
