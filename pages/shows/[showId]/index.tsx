@@ -1,23 +1,19 @@
 import { faArrowRight, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NextPage } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import styled from "styled-components";
 import useSWR from "swr";
 import CastCard from "../../../components/castCard";
 import ContentContainer from "../../../components/contentContainer";
 import FilmHeader from "../../../components/filmHeader";
-import Link from "next/link";
 import Review from "../../../components/review";
-import styled from "styled-components";
-import Image from "next/image";
 
 const ScrollContainer = styled.div`
   display: flex;
   overflow-x: scroll;
-  margin-bottom: 15px;
-`;
-
-const ReviewContainer = styled.div`
   margin-bottom: 15px;
 `;
 
@@ -26,6 +22,10 @@ const ViewMore = styled.div`
   align-items: center;
   padding: 0 10px;
   min-width: 150px;
+`;
+
+const ReviewContainer = styled.div`
+  margin-bottom: 15px;
 `;
 
 const StyledLinkContainer = styled.a`
@@ -45,6 +45,14 @@ const StyledLink = styled.a`
   &:hover {
     color: #7d7d7d;
   }
+`;
+
+const Separator = styled.hr`
+  border: 0;
+  height: 1px;
+  width: 100%;
+  background-color: #d9d9d9;
+  margin: 35px 0;
 `;
 
 const Recommended = styled.a`
@@ -71,33 +79,24 @@ const Recommended = styled.a`
   }
 `;
 
-const Separator = styled.hr`
-  border: 0;
-  height: 1px;
-  width: 100%;
-  background-color: #d9d9d9;
-  margin: 35px 0;
-`;
-
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
-const Movie: NextPage = () => {
+const Show: NextPage = () => {
   const router = useRouter();
-  const { movieId } = router.query;
+  const { showId } = router.query;
 
-  const { data, error } = useSWR(`/api/movies/${movieId}`, fetcher);
+  const { data, error } = useSWR(`/api/shows/${showId}`, fetcher);
 
-  if (error || data?.success === false)
-    return <span>An error has occurred.</span>;
+  if (error) return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
-  data.release_date = new Date(data.release_date);
+  data.release_date = new Date(data.first_air_date);
 
   console.log(data);
 
   return (
     <>
-      <FilmHeader film={data} type="movie" />
+      <FilmHeader film={data} type="show" />
       <ContentContainer>
         <h3>Top Billed Cast</h3>
         <ScrollContainer>
@@ -105,7 +104,7 @@ const Movie: NextPage = () => {
             return <CastCard key={member.id} member={member}></CastCard>;
           })}
           <ViewMore>
-            <Link href={`/movies/${movieId}/cast`} passHref>
+            <Link href={`/shows/${showId}/cast`} passHref>
               <StyledLinkContainer>
                 <h4>View More</h4>
                 <FontAwesomeIcon icon={faArrowRight} />
@@ -113,7 +112,7 @@ const Movie: NextPage = () => {
             </Link>
           </ViewMore>
         </ScrollContainer>
-        <Link href={`/movies/${movieId}/cast`} passHref>
+        <Link href={`/shows/${showId}/cast`} passHref>
           <StyledLink>Full Cast &#38; Crew</StyledLink>
         </Link>
         <Separator />
@@ -125,11 +124,10 @@ const Movie: NextPage = () => {
             </div>
           ) : null}
         </ReviewContainer>
-        <Link href={`/movies/${movieId}/reviews`} passHref>
+        <Link href={`/shows/${showId}/reviews`} passHref>
           <StyledLink>View all reviews</StyledLink>
         </Link>
         <Separator />
-        <h3>Recommended</h3>
         <ScrollContainer>
           {data.recommended.map((recommended: any) => (
             <Link
@@ -145,7 +143,7 @@ const Movie: NextPage = () => {
                   alt="movie"
                 />
                 <div>
-                  <h4>{recommended.title}</h4>
+                  <h4>{recommended.name}</h4>
                   <span>
                     <FontAwesomeIcon
                       style={{ marginRight: "5px", color: "#e6d817" }}
@@ -163,4 +161,4 @@ const Movie: NextPage = () => {
   );
 };
 
-export default Movie;
+export default Show;

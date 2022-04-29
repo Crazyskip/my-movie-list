@@ -24,14 +24,15 @@ const Review = ({ review }: { review: any }) => {
       <a href={`https://www.themoviedb.org/u/${review.author}`}>
         <Image
           style={{ borderRadius: "100%" }}
-          src={
-            review.author_details.avatar_path
-              ? review.author_details.avatar_path.slice(
-                  1,
-                  review.author_details.avatar_path.length
-                )
-              : "/assets/img/profile.jpg"
-          }
+          // src={
+          //   review.author_details.avatar_path
+          //     ? review.author_details.avatar_path.slice(
+          //         1,
+          //         review.author_details.avatar_path.length
+          //       )
+          //     : "/assets/img/profile.jpg"
+          // }
+          src={"/assets/img/profile.jpg"}
           alt="profile"
           height="50"
           width="50"

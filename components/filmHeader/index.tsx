@@ -94,28 +94,30 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => (
             <h3>Overview</h3>
             <div>{film.overview}</div>
           </Overview>
-          <DetailsContainer>
-            <Detail>
-              <h4>Status</h4>
-              <p>{film.status}</p>
-            </Detail>
-            <Detail>
-              <h4>Budget</h4>
-              <p>
-                {film.budget !== 0
-                  ? `$${film.budget.toLocaleString()}.00`
-                  : "-"}
-              </p>
-            </Detail>
-            <Detail>
-              <h4>Revenue</h4>
-              <p>
-                {film.revenue !== 0
-                  ? `$${film.revenue.toLocaleString()}.00`
-                  : "-"}
-              </p>
-            </Detail>
-          </DetailsContainer>
+          {type === "movie" ? (
+            <DetailsContainer>
+              <Detail>
+                <h4>Status</h4>
+                <p>{film.status}</p>
+              </Detail>
+              <Detail>
+                <h4>Budget</h4>
+                <p>
+                  {film.budget !== 0
+                    ? `$${film.budget.toLocaleString()}.00`
+                    : "-"}
+                </p>
+              </Detail>
+              <Detail>
+                <h4>Revenue</h4>
+                <p>
+                  {film.revenue !== 0
+                    ? `$${film.revenue.toLocaleString()}.00`
+                    : "-"}
+                </p>
+              </Detail>
+            </DetailsContainer>
+          ) : null}
         </HeaderContent>
       </FlexContainer>
     </ContentContainer>
