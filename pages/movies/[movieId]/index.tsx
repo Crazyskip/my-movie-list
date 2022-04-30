@@ -99,65 +99,79 @@ const Movie: NextPage = () => {
     <>
       <FilmHeader film={data} type="movie" />
       <ContentContainer>
-        <h3>Top Billed Cast</h3>
-        <ScrollContainer>
-          {data.cast.slice(0, 10).map((member: any) => {
-            return <CastCard key={member.id} member={member}></CastCard>;
-          })}
-          <ViewMore>
-            <Link href={`/movies/${movieId}/cast`} passHref>
-              <StyledLinkContainer>
-                <h4>View More</h4>
-                <FontAwesomeIcon icon={faArrowRight} />
-              </StyledLinkContainer>
+        {data.cast.length ? (
+          <>
+            <h3>Top Billed Cast</h3>
+            <ScrollContainer>
+              {data.cast.slice(0, 10).map((member: any) => {
+                return <CastCard key={member.id} member={member}></CastCard>;
+              })}
+              <ViewMore>
+                <Link href={`/shows/${movieId}/cast`} passHref>
+                  <StyledLinkContainer>
+                    <h4>View More</h4>
+                    <FontAwesomeIcon icon={faArrowRight} />
+                  </StyledLinkContainer>
+                </Link>
+              </ViewMore>
+            </ScrollContainer>
+            <Link href={`/shows/${movieId}/cast`} passHref>
+              <StyledLink>Full Cast &#38; Crew</StyledLink>
             </Link>
-          </ViewMore>
-        </ScrollContainer>
-        <Link href={`/movies/${movieId}/cast`} passHref>
-          <StyledLink>Full Cast &#38; Crew</StyledLink>
-        </Link>
-        <Separator />
-        <ReviewContainer>
-          {data.reviews.length ? (
-            <div>
-              <h3>Reviews</h3>
-              <Review review={data.reviews[0]} />
-            </div>
-          ) : null}
-        </ReviewContainer>
-        <Link href={`/movies/${movieId}/reviews`} passHref>
-          <StyledLink>View all reviews</StyledLink>
-        </Link>
-        <Separator />
-        <h3>Recommended</h3>
-        <ScrollContainer>
-          {data.recommended.map((recommended: any) => (
-            <Link
-              key={recommended.id}
-              href={`/movies/${recommended.id}`}
-              passHref
-            >
-              <Recommended>
-                <Image
-                  src={`https://image.tmdb.org/t/p/w300${recommended.backdrop_path}`}
-                  width="300"
-                  height="169"
-                  alt="movie"
-                />
-                <div>
-                  <h4>{recommended.title}</h4>
-                  <span>
-                    <FontAwesomeIcon
-                      style={{ marginRight: "5px", color: "#e6d817" }}
-                      icon={faStar}
-                    />
-                    {recommended.vote_average.toFixed(1)}
-                  </span>
-                </div>
-              </Recommended>
+            <Separator />
+          </>
+        ) : null}
+
+        {data.reviews.length ? (
+          <>
+            <ReviewContainer>
+              <div>
+                <h3>Reviews</h3>
+                <Review review={data.reviews[0]} />
+              </div>
+            </ReviewContainer>
+            <Link href={`/movies/${movieId}/reviews`} passHref>
+              <StyledLink>View all reviews</StyledLink>
             </Link>
-          ))}
-        </ScrollContainer>
+            <Separator />
+          </>
+        ) : null}
+
+        {data.recommended.length ? (
+          <>
+            <h3>Recommended</h3>
+            <ScrollContainer>
+              {data.recommended.map((recommended: any) =>
+                recommended.backdrop_path ? (
+                  <Link
+                    key={recommended.id}
+                    href={`/movies/${recommended.id}`}
+                    passHref
+                  >
+                    <Recommended>
+                      <Image
+                        src={`https://image.tmdb.org/t/p/w300${recommended.backdrop_path}`}
+                        width="300"
+                        height="169"
+                        alt="movie"
+                      />
+                      <div>
+                        <h4>{recommended.title}</h4>
+                        <span>
+                          <FontAwesomeIcon
+                            style={{ marginRight: "5px", color: "#e6d817" }}
+                            icon={faStar}
+                          />
+                          {recommended.vote_average.toFixed(1)}
+                        </span>
+                      </div>
+                    </Recommended>
+                  </Link>
+                ) : null
+              )}
+            </ScrollContainer>
+          </>
+        ) : null}
       </ContentContainer>
     </>
   );

@@ -15,8 +15,10 @@ const getDateString = (dateString: string) => {
 };
 
 const FilmCard = ({ film, type }: { film: any; type: "movies" | "shows" }) => {
-  if (type === "movies" && film.release_date === "") return null;
-  if (type === "shows" && film.first_air_date === "") return null;
+  if (type === "movies" && (film.release_date === "" || !film.poster_path))
+    return null;
+  if (type === "shows" && (film.first_air_date === "" || !film.poster_path))
+    return null;
 
   return (
     <CardContainer>

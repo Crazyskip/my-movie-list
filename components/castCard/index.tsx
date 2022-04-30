@@ -4,7 +4,11 @@ const CastCard = ({ member }: { member: any }) => {
   return (
     <CardContainer>
       <CardImage
-        src={`https://image.tmdb.org/t/p/w500${member.profile_path}`}
+        src={
+          member.profile_path
+            ? `https://image.tmdb.org/t/p/w500${member.profile_path}`
+            : "/assets/img/profile.jpg"
+        }
         width="250"
         height="375"
         alt={member.name}

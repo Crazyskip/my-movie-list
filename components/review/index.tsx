@@ -12,8 +12,24 @@ const getDateString = (dateString: string) => {
   return formattedDate;
 };
 
+// Returns path of image based on format provided
+const formatProfilePicture = (imageString: string) => {
+  if (imageString === "") {
+    return "/assets/img/profile.jpg";
+  } else {
+    if (imageString.slice(0, 5) === "/http") {
+      return imageString.slice(1, imageString.length);
+    } else {
+      return `https://image.tmdb.org/t/p/w45${imageString}`;
+    }
+  }
+};
+
 const Review = ({ review }: { review: any }) => {
+  // Remove html tags from content
   review.content = review.content.replace(/<\/?[^>]+(>|$)/g, "");
+
+  // Limit content length to 500 characters
   const content = {
     lines: review.content.slice(0, 500).split("\n"),
     shortened: review.content.length > 500,
@@ -24,15 +40,7 @@ const Review = ({ review }: { review: any }) => {
       <a href={`https://www.themoviedb.org/u/${review.author}`}>
         <Image
           style={{ borderRadius: "100%" }}
-          // src={
-          //   review.author_details.avatar_path
-          //     ? review.author_details.avatar_path.slice(
-          //         1,
-          //         review.author_details.avatar_path.length
-          //       )
-          //     : "/assets/img/profile.jpg"
-          // }
-          src={"/assets/img/profile.jpg"}
+          src={formatProfilePicture(review.author_details.avatar_path)}
           alt="profile"
           height="50"
           width="50"
