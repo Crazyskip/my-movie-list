@@ -120,7 +120,7 @@ const Show: NextPage = () => {
 
         {data.reviews.length ? (
           <div>
-            <h3>Reviews</h3>
+            <h3>Reviews ({data.reviews.length})</h3>
             <Review review={data.reviews[0]} />
             <Link href={`/shows/${showId}/reviews`} passHref>
               <StyledLink>View all reviews</StyledLink>

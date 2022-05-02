@@ -103,7 +103,7 @@ const Movie: NextPage = () => {
                 return <CastCard key={member.id} member={member}></CastCard>;
               })}
               <ViewMore>
-                <Link href={`/shows/${movieId}/cast`} passHref>
+                <Link href={`/movies/${movieId}/cast`} passHref>
                   <StyledLinkContainer>
                     <h4>View More</h4>
                     <FontAwesomeIcon icon={faArrowRight} />
@@ -120,7 +120,7 @@ const Movie: NextPage = () => {
 
         {data.reviews.length ? (
           <div>
-            <h3>Reviews</h3>
+            <h3>Reviews ({data.reviews.length})</h3>
             <Review review={data.reviews[0]} />
             <Link href={`/movies/${movieId}/reviews`} passHref>
               <StyledLink>View all reviews</StyledLink>
