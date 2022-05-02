@@ -36,7 +36,8 @@ const TopRatedMovies: NextPage = () => {
     if (data) setMovies(data.results);
   }, [data]);
 
-  if (error) return <span>An error has occurred.</span>;
+  if (error || data?.success === false)
+    return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
   const addMovies = async () => {

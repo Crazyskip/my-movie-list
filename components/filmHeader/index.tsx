@@ -28,9 +28,8 @@ const ReactTooltip = dynamic(() => import("react-tooltip"), {
 });
 
 // Returns date in format dd/mm/YYYY
-const getDateString = (dateString: string) => {
-  const date = new Date(dateString);
-  const formattedDate = date
+const getDateString = (dateString: Date) => {
+  const formattedDate = dateString
     .toLocaleDateString("en-AU", {
       day: "numeric",
       month: "numeric",

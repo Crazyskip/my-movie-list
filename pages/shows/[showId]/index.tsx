@@ -24,10 +24,6 @@ const ViewMore = styled.div`
   min-width: 150px;
 `;
 
-const ReviewContainer = styled.div`
-  margin-bottom: 15px;
-`;
-
 const StyledLinkContainer = styled.a`
   display: flex;
   align-items: center;
@@ -87,7 +83,8 @@ const Show: NextPage = () => {
 
   const { data, error } = useSWR(`/api/shows/${showId}`, fetcher);
 
-  if (error) return <span>An error has occurred.</span>;
+  if (error || data?.success === false)
+    return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
   data.release_date = new Date(data.first_air_date);
@@ -122,18 +119,14 @@ const Show: NextPage = () => {
         ) : null}
 
         {data.reviews.length ? (
-          <>
-            <ReviewContainer>
-              <div>
-                <h3>Reviews</h3>
-                <Review review={data.reviews[0]} />
-              </div>
-            </ReviewContainer>
+          <div>
+            <h3>Reviews</h3>
+            <Review review={data.reviews[0]} />
             <Link href={`/shows/${showId}/reviews`} passHref>
               <StyledLink>View all reviews</StyledLink>
             </Link>
             <Separator />
-          </>
+          </div>
         ) : null}
 
         {data.recommended.length ? (
@@ -144,7 +137,7 @@ const Show: NextPage = () => {
                 recommended.backdrop_path ? (
                   <Link
                     key={recommended.id}
-                    href={`/movies/${recommended.id}`}
+                    href={`/shows/${recommended.id}`}
                     passHref
                   >
                     <Recommended>

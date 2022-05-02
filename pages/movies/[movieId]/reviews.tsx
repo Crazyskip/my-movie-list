@@ -1,6 +1,9 @@
 import { NextPage } from "next";
 import { useRouter } from "next/router";
 import useSWR from "swr";
+import ContentContainer from "../../../components/contentContainer";
+import Review from "../../../components/review";
+import SmallFilmHeader from "../../../components/smallFilmHeader";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -10,7 +13,8 @@ const Reviews: NextPage = () => {
 
   const { data, error } = useSWR(`/api/movies/${movieId}`, fetcher);
 
-  if (error) return <span>An error has occurred.</span>;
+  if (error || data?.success === false)
+    return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
   data.release_date = new Date(data.release_date);
@@ -19,7 +23,14 @@ const Reviews: NextPage = () => {
 
   return (
     <>
-      <h1>{data.title} Reviews</h1>
+      <SmallFilmHeader film={data} type="movie" />
+      <ContentContainer>
+        {data.reviews.map((review: any) => (
+          <div key={review.id}>
+            <Review review={review} />
+          </div>
+        ))}
+      </ContentContainer>
     </>
   );
 };

@@ -17,10 +17,6 @@ const ScrollContainer = styled.div`
   margin-bottom: 15px;
 `;
 
-const ReviewContainer = styled.div`
-  margin-bottom: 15px;
-`;
-
 const ViewMore = styled.div`
   display: flex;
   align-items: center;
@@ -115,7 +111,7 @@ const Movie: NextPage = () => {
                 </Link>
               </ViewMore>
             </ScrollContainer>
-            <Link href={`/shows/${movieId}/cast`} passHref>
+            <Link href={`/movies/${movieId}/cast`} passHref>
               <StyledLink>Full Cast &#38; Crew</StyledLink>
             </Link>
             <Separator />
@@ -123,18 +119,14 @@ const Movie: NextPage = () => {
         ) : null}
 
         {data.reviews.length ? (
-          <>
-            <ReviewContainer>
-              <div>
-                <h3>Reviews</h3>
-                <Review review={data.reviews[0]} />
-              </div>
-            </ReviewContainer>
+          <div>
+            <h3>Reviews</h3>
+            <Review review={data.reviews[0]} />
             <Link href={`/movies/${movieId}/reviews`} passHref>
               <StyledLink>View all reviews</StyledLink>
             </Link>
             <Separator />
-          </>
+          </div>
         ) : null}
 
         {data.recommended.length ? (
