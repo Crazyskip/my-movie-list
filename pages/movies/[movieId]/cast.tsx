@@ -5,6 +5,7 @@ import useSWR from "swr";
 import ContentContainer from "../../../components/contentContainer";
 import SmallFilmHeader from "../../../components/smallFilmHeader";
 import styled from "styled-components";
+import Head from "next/head";
 
 const StyledImage = styled(Image)`
   border-radius: 6px;
@@ -56,6 +57,14 @@ const Cast: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>{data.title} - Cast & Crew - My Movie List</title>
+        <meta
+          name="description"
+          content="Welcome to MyMovieList. Join the online community and create your movie and tv show list."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <SmallFilmHeader film={data} type="movie" />
       <ContentContainer>
         <Content>

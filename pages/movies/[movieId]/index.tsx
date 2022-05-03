@@ -10,6 +10,7 @@ import Link from "next/link";
 import Review from "../../../components/review";
 import styled from "styled-components";
 import Image from "next/image";
+import Head from "next/head";
 
 const ScrollContainer = styled.div`
   display: flex;
@@ -93,6 +94,14 @@ const Movie: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>{data.title} - My Movie List</title>
+        <meta
+          name="description"
+          content="Welcome to MyMovieList. Join the online community and create your movie and tv show list."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <FilmHeader film={data} type="movie" />
       <ContentContainer>
         {data.cast.length ? (

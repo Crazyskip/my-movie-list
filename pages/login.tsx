@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import ContentContainer from "../components/contentContainer";
 
-const Home: NextPage = () => {
+const Login: NextPage = () => {
   return (
-    <div>
+    <>
       <Head>
-        <title>Home - My Movie List</title>
+        <title>Login - My Movie List</title>
         <meta
           name="description"
           content="Welcome to MyMovieList. Join the online community and create your movie and tv show list."
@@ -14,10 +14,10 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContentContainer as="main">
-        <h1>Home</h1>
+        <h1>Login</h1>
       </ContentContainer>
-    </div>
+    </>
   );
 };
 
-export default Home;
+export default Login;

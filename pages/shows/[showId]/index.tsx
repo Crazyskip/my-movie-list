@@ -1,6 +1,7 @@
 import { faArrowRight, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { NextPage } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -93,6 +94,14 @@ const Show: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>{data.name} - My Movie List</title>
+        <meta
+          name="description"
+          content="Welcome to MyMovieList. Join the online community and create your movie and tv show list."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <FilmHeader film={data} type="show" />
       <ContentContainer>
         {data.cast.length ? (

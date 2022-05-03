@@ -22,10 +22,10 @@ const Navbar = () => (
         </Link>
       </NavLinkGroup>
       <NavLinkGroup>
-        <Link href="/" passHref>
+        <Link href="/login" passHref>
           <NavLink>Login</NavLink>
         </Link>
-        <Link href="/" passHref>
+        <Link href="/signup" passHref>
           <NavLink>Signup</NavLink>
         </Link>
       </NavLinkGroup>

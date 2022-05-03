@@ -1,4 +1,5 @@
 import { NextPage } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import ContentContainer from "../../../components/contentContainer";
@@ -23,6 +24,14 @@ const Reviews: NextPage = () => {
 
   return (
     <>
+      <Head>
+        <title>{data.title} - Reviews - My Movie List</title>
+        <meta
+          name="description"
+          content="Welcome to MyMovieList. Join the online community and create your movie and tv show list."
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <SmallFilmHeader film={data} type="movie" />
       <ContentContainer>
         {data.reviews.map((review: any) => (
