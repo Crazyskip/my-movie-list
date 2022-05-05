@@ -1,4 +1,5 @@
 import {
+  Dropdown,
   NavContainer,
   NavLink,
   NavLinkGroup,
@@ -14,12 +15,55 @@ const Navbar = () => (
     </Link>
     <NavLinks>
       <NavLinkGroup>
-        <Link href="/movies" passHref>
-          <NavLink>Movies</NavLink>
-        </Link>
-        <Link href="/shows" passHref>
-          <NavLink>TV Shows</NavLink>
-        </Link>
+        <Dropdown>
+          <Link href="/movies" passHref>
+            <NavLink>Movies</NavLink>
+          </Link>
+          <ul>
+            <li>
+              <Link href="/movies" passHref>
+                <NavLink>Popular</NavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/movies/now-playing" passHref>
+                <NavLink>Now Playing</NavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/movies/upcoming" passHref>
+                <NavLink>Upcoming</NavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/movies/top-rated" passHref>
+                <NavLink>Top Rated</NavLink>
+              </Link>
+            </li>
+          </ul>
+        </Dropdown>
+        <Dropdown>
+          <Link href="/shows" passHref>
+            <NavLink>TV Shows</NavLink>
+          </Link>
+          <ul>
+            <li>
+              <Link href="/shows" passHref>
+                <NavLink>Popular</NavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/shows/airing" passHref>
+                <NavLink>Currently Airing</NavLink>
+              </Link>
+            </li>
+            <li>
+              <Link href="/shows/top-rated" passHref>
+                <NavLink>Top Rated</NavLink>
+              </Link>
+            </li>
+          </ul>
+        </Dropdown>
       </NavLinkGroup>
       <NavLinkGroup>
         <Link href="/login" passHref>
