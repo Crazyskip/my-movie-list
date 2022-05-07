@@ -26,6 +26,7 @@ export const NavContainer = styled.nav`
 export const NavLogo = styled.a`
   font-size: 1.5rem;
   font-weight: 700;
+  margin-right: 30px;
 `;
 
 export const NavLinks = styled.div`
