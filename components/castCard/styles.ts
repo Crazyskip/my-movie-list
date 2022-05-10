@@ -8,6 +8,7 @@ export const CardContainer = styled.div`
   border: 1px solid #cccccc;
   border-radius: 8px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+  margin-bottom: 20px;
 `;
 
 export const CardImage = styled(Image)`
