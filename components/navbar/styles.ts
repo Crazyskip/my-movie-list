@@ -26,7 +26,7 @@ export const NavContainer = styled.nav`
 export const NavLogo = styled.a`
   font-size: 1.5rem;
   font-weight: 700;
-  margin-right: 30px;
+  margin-right: 20px;
 `;
 
 export const NavLinks = styled.div`
@@ -42,7 +42,7 @@ export const NavLinkGroup = styled.div`
 
 export const Dropdown = styled.div`
   position: relative;
-  margin: 0 30px;
+  margin: 0 20px;
   padding: 10px;
   cursor: pointer;
 
