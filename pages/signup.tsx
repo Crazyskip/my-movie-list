@@ -1,8 +1,21 @@
 import type { NextPage } from "next";
 import Head from "next/head";
+import { signIn, useSession } from "next-auth/react";
+import GoogleButton from "react-google-button";
 import ContentContainer from "../components/contentContainer";
+import { useRouter } from "next/router";
 
 const Signup: NextPage = () => {
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  } else if (status === "authenticated") {
+    router.push("/");
+    return <></>;
+  }
+
   return (
     <>
       <Head>
@@ -15,6 +28,12 @@ const Signup: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>Signup</h1>
+        <>
+          <GoogleButton
+            label="Sign up with Google"
+            onClick={() => signIn("google")}
+          />
+        </>
       </ContentContainer>
     </>
   );

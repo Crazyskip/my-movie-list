@@ -78,7 +78,7 @@ export const Dropdown = styled.div`
       clear: both;
       width: 100%;
       text-align: left;
-      padding: 5px 10px;
+
       border-style: none;
       color: #000000;
 
@@ -87,6 +87,7 @@ export const Dropdown = styled.div`
       }
 
       a {
+        padding: 5px 10px;
         display: block;
         margin: 0;
         min-width: 150px;
@@ -105,4 +106,5 @@ export const NavLink = styled.a`
   font-weight: 500;
   margin: 0 30px;
   padding: 10px;
+  cursor: pointer;
 `;

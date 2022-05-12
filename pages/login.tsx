@@ -1,11 +1,22 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import ContentContainer from "../components/contentContainer";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signIn } from "next-auth/react";
+import GoogleButton from "react-google-button";
+import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
-  const { data: session } = useSession();
-  console.log(session);
+  const { status } = useSession();
+  const router = useRouter();
+
+  console.log(status);
+
+  if (status === "loading") {
+    return <p>Loading...</p>;
+  } else if (status === "authenticated") {
+    router.push("/");
+    return <></>;
+  }
 
   return (
     <>
@@ -19,17 +30,9 @@ const Login: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>Login</h1>
-        {session ? (
-          <>
-            Signed in as {session.user?.email} <br />
-            <button onClick={() => signOut()}>Sign out</button>
-          </>
-        ) : (
-          <>
-            Not signed in <br />
-            <button onClick={() => signIn("google")}>Sign in</button>
-          </>
-        )}
+        <>
+          <GoogleButton onClick={() => signIn("google")} />
+        </>
       </ContentContainer>
     </>
   );
