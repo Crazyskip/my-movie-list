@@ -28,12 +28,10 @@ const Signup: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>Signup</h1>
-        <>
-          <GoogleButton
-            label="Sign up with Google"
-            onClick={() => signIn("google")}
-          />
-        </>
+        <GoogleButton
+          label="Sign up with Google"
+          onClick={() => signIn("google")}
+        />
       </ContentContainer>
     </>
   );

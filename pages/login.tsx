@@ -30,9 +30,7 @@ const Login: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>Login</h1>
-        <>
-          <GoogleButton onClick={() => signIn("google")} />
-        </>
+        <GoogleButton onClick={() => signIn("google")} />
       </ContentContainer>
     </>
   );
