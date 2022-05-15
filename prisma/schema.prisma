@@ -39,8 +39,10 @@ model Session {
 model User {
   id            String    @id @default(auto()) @map("_id") @db.ObjectId
   name          String?
+  username      String?
   email         String?   @unique
   emailVerified DateTime?
+  createdAt     DateTime @default(now())
   image         String?
   accounts      Account[]
   sessions      Session[]
@@ -75,6 +77,6 @@ type Film {
 }
 
 enum FilmType {
-  Movie
-  Show
+  movies
+  shows
 }

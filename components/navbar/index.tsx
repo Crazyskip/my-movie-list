@@ -70,6 +70,9 @@ const Navbar = () => {
         </NavLinkGroup>
         {session ? (
           <NavLinkGroup>
+            <Link href={`/u/${session.userId}`} passHref>
+              <NavLink>Profile</NavLink>
+            </Link>
             <NavLink
               as="div"
               role="button"
