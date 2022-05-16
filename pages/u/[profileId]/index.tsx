@@ -58,14 +58,11 @@ const Profile: NextPage = () => {
         <div>
           {data.user.lists.map((list: any) => (
             <div key={list.id} style={{ padding: "10px 20px" }}>
-              <h3>{list.name}</h3>
-              {list.films.map((film: any) => (
-                <div key={film.id + film.type}>
-                  <Link href={`/${film.type}/${film.id}`}>
-                    <a>{film.id}</a>
-                  </Link>
-                </div>
-              ))}
+              <Link href={`/lists/${list.id}`}>
+                <a>
+                  <h3>{list.name}</h3>
+                </a>
+              </Link>
               <hr />
             </div>
           ))}

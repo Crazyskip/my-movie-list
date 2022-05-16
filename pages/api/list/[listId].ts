@@ -6,37 +6,26 @@ const prisma = new PrismaClient();
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const {
-    query: { userId },
+    query: { listId },
     method,
   } = req;
 
   const session = await getSession({ req });
 
   if (method === "GET") {
-    const user: object | null = await prisma.user.findUnique({
+    const list: object | null = await prisma.list.findUnique({
       where: {
-        id: userId as string,
+        id: listId as string,
       },
       select: {
-        username: true,
+        id: true,
         name: true,
         createdAt: true,
-        lists: true,
+        updatedAt: true,
+        films: true,
       },
     });
-
-    // if (session?.user?.email) {
-    //   const result = await prisma.list.create({
-    //     data: {
-    //       name: "Watchlist",
-    //       author: { connect: { email: session.user.email } },
-    //     },
-    //   });
-
-    //   console.log(result);
-    // }
-
-    return res.status(200).json({ user });
+    return res.status(200).json({ list });
   }
 
   res.status(404);
