@@ -5,6 +5,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import FilmCard from "../../components/filmCard";
+import styled from "styled-components";
 import CardsContainer from "../../components/cardsContainer";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());

@@ -25,17 +25,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
 
-    // if (session?.user?.email) {
-    //   const result = await prisma.list.create({
-    //     data: {
-    //       name: "Watchlist",
-    //       author: { connect: { email: session.user.email } },
-    //     },
-    //   });
-
-    //   console.log(result);
-    // }
-
     return res.status(200).json({ user });
   }
 
