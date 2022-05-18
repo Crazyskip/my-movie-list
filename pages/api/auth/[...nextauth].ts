@@ -19,4 +19,7 @@ export default NextAuth({
       return session;
     },
   },
+  pages: {
+    newUser: "/auth/new-user",
+  },
 });
