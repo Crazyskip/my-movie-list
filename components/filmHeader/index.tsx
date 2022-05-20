@@ -39,89 +39,110 @@ const getDateString = (dateString: Date) => {
   return formattedDate;
 };
 
-const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => (
-  <Header posterImage={`https://image.tmdb.org/t/p/w1280${film.backdrop_path}`}>
-    <ContentContainer>
-      <FlexContainer>
-        <StyledImage
-          src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
-          width="300"
-          height="450"
-          alt={type === "movie" ? film.title : film.name}
-        />
-        <HeaderContent>
-          <Title>
-            {type === "movie" ? film.title : film.name}{" "}
-            <Year>({film.release_date.getUTCFullYear()})</Year>
-          </Title>
-          <Description>
-            {getDateString(film.release_date)} -{" "}
-            {film.genres.map(
-              (genre: { id: number; name: string }, index: number) => (
-                <span key={genre.id}>
-                  {index > 0 ? ", " : null}
-                  {genre.name}
-                </span>
-              )
-            )}
-            {type === "movie"
-              ? ` - ${Math.floor(film.runtime / 60)}h ${Math.floor(
-                  film.runtime % 60
-                )}m`
-              : null}
-          </Description>
-          <FunctionsContainer>
-            <span>
-              <FontAwesomeIcon
-                style={{ marginRight: "5px", color: "#e6d817" }}
-                icon={faStar}
-              />
-              {film.vote_average}
-            </span>
-            <FunctionButton data-tip={`Add ${type} to favourite list`}>
-              <FontAwesomeIcon icon={faHeart} />
-            </FunctionButton>
-            <FunctionButton data-tip={`Add ${type} to watchlist`}>
-              <FontAwesomeIcon icon={faBookmark} />
-            </FunctionButton>
-            <FunctionButton data-tip={`Add ${type} to custom list`}>
-              <FontAwesomeIcon icon={faList} />
-            </FunctionButton>
-          </FunctionsContainer>
-          <Tagline>{film.tagline}</Tagline>
-          <Overview>
-            <h3>Overview</h3>
-            <div>{film.overview}</div>
-          </Overview>
-          {type === "movie" ? (
-            <DetailsContainer>
-              <Detail>
-                <h4>Status</h4>
-                <p>{film.status}</p>
-              </Detail>
-              <Detail>
-                <h4>Budget</h4>
-                <p>
-                  {film.budget !== 0
-                    ? `$${film.budget.toLocaleString()}.00`
-                    : "-"}
-                </p>
-              </Detail>
-              <Detail>
-                <h4>Revenue</h4>
-                <p>
-                  {film.revenue !== 0
-                    ? `$${film.revenue.toLocaleString()}.00`
-                    : "-"}
-                </p>
-              </Detail>
-            </DetailsContainer>
-          ) : null}
-        </HeaderContent>
-      </FlexContainer>
-    </ContentContainer>
-    <ReactTooltip type="light" effect="solid" place="bottom" />
-  </Header>
-);
+const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
+  const addToList = (listName: string) => {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ filmId: film.id, filmType: type + "s", listName }),
+    };
+    fetch("/api/film", requestOptions).then((response) => {
+      console.log(response);
+    });
+  };
+
+  return (
+    <Header
+      posterImage={`https://image.tmdb.org/t/p/w1280${film.backdrop_path}`}
+    >
+      <ContentContainer>
+        <FlexContainer>
+          <StyledImage
+            src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
+            width="300"
+            height="450"
+            alt={type === "movie" ? film.title : film.name}
+          />
+          <HeaderContent>
+            <Title>
+              {type === "movie" ? film.title : film.name}{" "}
+              <Year>({film.release_date.getUTCFullYear()})</Year>
+            </Title>
+            <Description>
+              {getDateString(film.release_date)} -{" "}
+              {film.genres.map(
+                (genre: { id: number; name: string }, index: number) => (
+                  <span key={genre.id}>
+                    {index > 0 ? ", " : null}
+                    {genre.name}
+                  </span>
+                )
+              )}
+              {type === "movie"
+                ? ` - ${Math.floor(film.runtime / 60)}h ${Math.floor(
+                    film.runtime % 60
+                  )}m`
+                : null}
+            </Description>
+            <FunctionsContainer>
+              <span>
+                <FontAwesomeIcon
+                  style={{ marginRight: "5px", color: "#e6d817" }}
+                  icon={faStar}
+                />
+                {film.vote_average}
+              </span>
+              <FunctionButton
+                data-tip={`Add ${type} to favourite list`}
+                onClick={() => addToList("Favourites")}
+              >
+                <FontAwesomeIcon icon={faHeart} />
+              </FunctionButton>
+              <FunctionButton
+                data-tip={`Add ${type} to watchlist`}
+                onClick={() => addToList("Watchlist")}
+              >
+                <FontAwesomeIcon icon={faBookmark} />
+              </FunctionButton>
+              <FunctionButton data-tip={`Add ${type} to custom list`}>
+                <FontAwesomeIcon icon={faList} />
+              </FunctionButton>
+            </FunctionsContainer>
+            <Tagline>{film.tagline}</Tagline>
+            <Overview>
+              <h3>Overview</h3>
+              <div>{film.overview}</div>
+            </Overview>
+            {type === "movie" ? (
+              <DetailsContainer>
+                <Detail>
+                  <h4>Status</h4>
+                  <p>{film.status}</p>
+                </Detail>
+                <Detail>
+                  <h4>Budget</h4>
+                  <p>
+                    {film.budget !== 0
+                      ? `$${film.budget.toLocaleString()}.00`
+                      : "-"}
+                  </p>
+                </Detail>
+                <Detail>
+                  <h4>Revenue</h4>
+                  <p>
+                    {film.revenue !== 0
+                      ? `$${film.revenue.toLocaleString()}.00`
+                      : "-"}
+                  </p>
+                </Detail>
+              </DetailsContainer>
+            ) : null}
+          </HeaderContent>
+        </FlexContainer>
+      </ContentContainer>
+      <ReactTooltip type="light" effect="solid" place="bottom" />
+    </Header>
+  );
+};
 
 export default FilmHeader;
