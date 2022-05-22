@@ -76,6 +76,38 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           });
 
           return res.status(200).json({ result });
+        } else {
+          let customList = await prisma.list.findFirst({
+            where: {
+              name: body.listName,
+              authorId: session.userId as string,
+            },
+          });
+
+          if (!customList) {
+            customList = await prisma.list.create({
+              data: {
+                name: body.listName,
+                author: { connect: { email: session.user.email } },
+              },
+            });
+          }
+
+          const result = await prisma.list.update({
+            where: {
+              id: customList.id,
+            },
+            data: {
+              films: {
+                push: {
+                  id: body.filmId,
+                  type: body.filmType,
+                },
+              },
+            },
+          });
+
+          return res.status(200).json({ result });
         }
       }
     }

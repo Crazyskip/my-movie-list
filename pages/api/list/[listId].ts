@@ -26,6 +26,25 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       },
     });
     return res.status(200).json({ list });
+  } else if (method === "DELETE") {
+    if (session) {
+      const list = await prisma.list.findUnique({
+        where: {
+          id: listId as string,
+        },
+        select: {
+          authorId: true,
+        },
+      });
+      if (list && list.authorId === session.userId) {
+        const deletedList: object | null = await prisma.list.delete({
+          where: {
+            id: listId as string,
+          },
+        });
+        return res.status(200).json({ deletedList });
+      }
+    }
   }
 
   res.status(404);

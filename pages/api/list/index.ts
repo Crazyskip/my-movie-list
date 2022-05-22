@@ -12,6 +12,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (method === "POST") {
     if (session) {
       if (session.user?.email && body.name) {
+        const list = await prisma.list.findFirst({
+          where: {
+            name: body.name,
+            authorId: session.userId as string,
+          },
+        });
+
+        if (list) {
+          return res.status(400).json({ message: "List already exists" });
+        }
+
         const result = await prisma.list.create({
           data: {
             name: body.name,
@@ -19,7 +30,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           },
         });
 
-        return res.status(200).json({ result });
+        return res.status(201).json({ result });
       }
     }
   }

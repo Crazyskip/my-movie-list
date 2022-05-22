@@ -23,18 +23,34 @@ const Profile: NextPage = () => {
     return <span>An error has occurred.</span>;
   if (!data) return <span>Loading...</span>;
 
-  const CreateList = () => {
+  const createList = () => {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: listName }),
     };
     fetch("/api/list", requestOptions).then((response) => {
-      if (response.status === 200) {
+      if (response.status === 201) {
         document.cookie =
           "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
         mutate(`/api/user/${profileId}`);
         setListName("");
+      } else {
+        response.json().then(({ message }) => alert(message));
+      }
+    });
+  };
+
+  const deleteList = (listId: string) => {
+    const requestOptions = {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+    };
+    fetch(`/api/list/${listId}`, requestOptions).then((response) => {
+      if (response.status === 200) {
+        document.cookie =
+          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+        mutate(`/api/user/${profileId}`);
       }
     });
   };
@@ -76,16 +92,32 @@ const Profile: NextPage = () => {
           value={listName}
           onChange={(e) => setListName(e.target.value)}
         />
-        <button onClick={CreateList}>Create List</button>
+        <button onClick={createList}>Create List</button>
         <h2>Lists ({data.user.lists.length})</h2>
         <div>
           {data.user.lists.map((list: any) => (
-            <div key={list.id} style={{ padding: "10px 20px" }}>
-              <Link href={`/lists/${list.id}`}>
-                <a>
-                  <h3>{list.name}</h3>
-                </a>
-              </Link>
+            <div key={list.id}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Link href={`/lists/${list.id}`}>
+                  <a>
+                    <h3>{list.name}</h3>
+                  </a>
+                </Link>
+                {list.name !== "Watchlist" && list.name !== "Favourites" ? (
+                  <div
+                    style={{ color: "red", cursor: "pointer" }}
+                    onClick={() => deleteList(list.id)}
+                  >
+                    Delete
+                  </div>
+                ) : null}
+              </div>
               <hr />
             </div>
           ))}
