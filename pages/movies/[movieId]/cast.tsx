@@ -48,8 +48,8 @@ const Cast: NextPage = () => {
   const { data, error } = useSWR(`/api/movies/${movieId}`, fetcher);
 
   if (error || data?.success === false)
-    return <span>An error has occurred.</span>;
-  if (!data) return <span>Loading...</span>;
+    return <ContentContainer>An error has occurred.</ContentContainer>;
+  if (!data) return <ContentContainer>Loading...</ContentContainer>;
 
   data.release_date = new Date(data.release_date);
 

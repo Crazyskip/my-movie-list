@@ -37,8 +37,8 @@ const NowPlayingMovies: NextPage = () => {
   }, [data]);
 
   if (error || data?.success === false)
-    return <span>An error has occurred.</span>;
-  if (!data) return <span>Loading...</span>;
+    return <ContentContainer>An error has occurred.</ContentContainer>;
+  if (!data) return <ContentContainer>Loading...</ContentContainer>;
 
   const addMovies = async () => {
     const response = await fetch(`/api/movies/now-playing?page=${page + 1}`);

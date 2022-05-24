@@ -20,8 +20,8 @@ const Profile: NextPage = () => {
   const { mutate } = useSWRConfig();
 
   if (error || data?.success === false)
-    return <span>An error has occurred.</span>;
-  if (!data) return <span>Loading...</span>;
+    return <ContentContainer>An error has occurred.</ContentContainer>;
+  if (!data) return <ContentContainer>Loading...</ContentContainer>;
 
   const createList = () => {
     const requestOptions = {

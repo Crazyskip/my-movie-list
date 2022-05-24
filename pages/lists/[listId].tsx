@@ -27,8 +27,8 @@ const List: NextPage = () => {
   const { data: filmsData } = useSWR([urlArray], arrayFetcher);
 
   if (error || listData?.success === false)
-    return <span>An error has occurred.</span>;
-  if (!listData) return <span>Loading...</span>;
+    return <ContentContainer>An error has occurred.</ContentContainer>;
+  if (!listData) return <ContentContainer>Loading...</ContentContainer>;
 
   if (!listData.list) {
     return (

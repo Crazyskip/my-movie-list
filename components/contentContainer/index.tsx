@@ -4,13 +4,20 @@ import device from "../../commons/breakpoints";
 
 interface Props {
   children?: ReactNode;
+  minHeight?: string;
   as?: React.ElementType;
 }
 
-const Container = styled.div`
+interface ContainerProps {
+  readonly minHeight: string;
+}
+
+const Container = styled.div<ContainerProps>`
   padding: 0 10px;
   margin: 0 auto;
   max-width: 1400px;
+  min-height: ${({ minHeight }) =>
+    minHeight ? minHeight : "calc(100vh - 64px)"};
 
   @media only screen and (${device.sm}) {
     padding: 0 20px;
@@ -21,9 +28,11 @@ const Container = styled.div`
   }
 `;
 
-const ContentContainer = ({ children, as = "div" }: Props) => (
+const ContentContainer = ({ children, as = "div", minHeight }: Props) => (
   <>
-    <Container as={as}>{children}</Container>
+    <Container as={as} minHeight={minHeight}>
+      {children}
+    </Container>
   </>
 );
 

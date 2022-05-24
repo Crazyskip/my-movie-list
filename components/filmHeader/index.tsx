@@ -55,7 +55,7 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
     <Header
       posterImage={`https://image.tmdb.org/t/p/w1280${film.backdrop_path}`}
     >
-      <ContentContainer>
+      <ContentContainer minHeight={"0px"}>
         <FlexContainer>
           <StyledImage
             src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}

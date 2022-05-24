@@ -15,8 +15,8 @@ const Reviews: NextPage = () => {
   const { data, error } = useSWR(`/api/shows/${showId}`, fetcher);
 
   if (error || data?.success === false)
-    return <span>An error has occurred.</span>;
-  if (!data) return <span>Loading...</span>;
+    return <ContentContainer>An error has occurred.</ContentContainer>;
+  if (!data) return <ContentContainer>Loading...</ContentContainer>;
 
   data.release_date = new Date(data.first_air_date);
 
