@@ -29,21 +29,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             });
           }
 
-          const result = await prisma.list.update({
-            where: {
-              id: watchlist.id,
-            },
-            data: {
-              films: {
-                push: {
-                  id: body.filmId,
-                  type: body.filmType,
+          const filmIndex = watchlist.films.findIndex(
+            (film: any) =>
+              film.id === body.filmId && film.type === body.filmType
+          );
+
+          if (filmIndex === -1) {
+            const result = await prisma.list.update({
+              where: {
+                id: watchlist.id,
+              },
+              data: {
+                films: {
+                  push: {
+                    id: body.filmId,
+                    type: body.filmType,
+                  },
                 },
               },
-            },
-          });
+            });
 
-          return res.status(200).json({ result });
+            return res.status(200).json({ result });
+          }
+
+          return res
+            .status(400)
+            .json({ message: "Film already exists in list" });
         } else if (body.listName === "Favourites") {
           let favourites = await prisma.list.findFirst({
             where: {
@@ -61,21 +72,31 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             });
           }
 
-          const result = await prisma.list.update({
-            where: {
-              id: favourites.id,
-            },
-            data: {
-              films: {
-                push: {
-                  id: body.filmId,
-                  type: body.filmType,
+          const filmIndex = favourites.films.findIndex(
+            (film: any) =>
+              film.id === body.filmId && film.type === body.filmType
+          );
+
+          if (filmIndex === -1) {
+            const result = await prisma.list.update({
+              where: {
+                id: favourites.id,
+              },
+              data: {
+                films: {
+                  push: {
+                    id: body.filmId,
+                    type: body.filmType,
+                  },
                 },
               },
-            },
-          });
+            });
+            return res.status(200).json({ result });
+          }
 
-          return res.status(200).json({ result });
+          return res
+            .status(400)
+            .json({ message: "Film already exists in list" });
         } else {
           let customList = await prisma.list.findFirst({
             where: {
@@ -93,21 +114,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
             });
           }
 
-          const result = await prisma.list.update({
-            where: {
-              id: customList.id,
-            },
-            data: {
-              films: {
-                push: {
-                  id: body.filmId,
-                  type: body.filmType,
+          const filmIndex = customList.films.findIndex(
+            (film: any) =>
+              film.id === body.filmId && film.type === body.filmType
+          );
+
+          if (filmIndex === -1) {
+            const result = await prisma.list.update({
+              where: {
+                id: customList.id,
+              },
+              data: {
+                films: {
+                  push: {
+                    id: body.filmId,
+                    type: body.filmType,
+                  },
                 },
               },
-            },
-          });
+            });
 
-          return res.status(200).json({ result });
+            return res.status(200).json({ result });
+          }
+
+          return res
+            .status(400)
+            .json({ message: "Film already exists in list" });
         }
       }
     }

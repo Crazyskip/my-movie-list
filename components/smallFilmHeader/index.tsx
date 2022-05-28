@@ -13,7 +13,7 @@ const SmallFilmHeader = ({
   type: "movie" | "show";
 }) => (
   <Header>
-    <ContentContainer>
+    <ContentContainer minHeight="0">
       <Content>
         <Image
           src={`https://image.tmdb.org/t/p/w92${film.poster_path}`}
