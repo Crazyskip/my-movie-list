@@ -11,6 +11,7 @@ import Review from "../../../components/review";
 import styled from "styled-components";
 import Image from "next/image";
 import Head from "next/head";
+import Spinner from "../../../components/spinner";
 
 const ScrollContainer = styled.div`
   display: flex;
@@ -86,11 +87,14 @@ const Movie: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   data.release_date = new Date(data.release_date);
-
-  console.log(data);
 
   return (
     <>

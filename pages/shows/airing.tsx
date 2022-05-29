@@ -6,6 +6,7 @@ import useSWR from "swr";
 import CardsContainer from "../../components/cardsContainer";
 import ContentContainer from "../../components/contentContainer";
 import FilmCard from "../../components/filmCard";
+import Spinner from "../../components/spinner";
 
 const StyledButton = styled.button`
   font-size: 1.5rem;
@@ -38,7 +39,12 @@ const AiringShows: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   const addShows = async () => {
     const response = await fetch(`/api/shows/airing?page=${page + 1}`);

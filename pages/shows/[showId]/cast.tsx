@@ -6,6 +6,7 @@ import styled from "styled-components";
 import ContentContainer from "../../../components/contentContainer";
 import Image from "next/image";
 import Head from "next/head";
+import Spinner from "../../../components/spinner";
 
 const StyledImage = styled(Image)`
   border-radius: 6px;
@@ -49,11 +50,14 @@ const Cast: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   data.release_date = new Date(data.first_air_date);
-
-  console.log(data);
 
   return (
     <>

@@ -11,6 +11,7 @@ import CastCard from "../../../components/castCard";
 import ContentContainer from "../../../components/contentContainer";
 import FilmHeader from "../../../components/filmHeader";
 import Review from "../../../components/review";
+import Spinner from "../../../components/spinner";
 
 const ScrollContainer = styled.div`
   display: flex;
@@ -86,11 +87,14 @@ const Show: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   data.release_date = new Date(data.first_air_date);
-
-  console.log(data);
 
   return (
     <>

@@ -6,6 +6,7 @@ import { useRouter } from "next/router";
 import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { useState } from "react";
+import Spinner from "../../../components/spinner";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -21,7 +22,12 @@ const Profile: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   const createList = () => {
     const requestOptions = {

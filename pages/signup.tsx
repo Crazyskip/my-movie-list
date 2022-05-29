@@ -4,13 +4,18 @@ import { signIn, useSession } from "next-auth/react";
 import GoogleButton from "react-google-button";
 import ContentContainer from "../components/contentContainer";
 import { useRouter } from "next/router";
+import Spinner from "../components/spinner";
 
 const Signup: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
   } else if (status === "authenticated") {
     router.push("/");
     return <></>;

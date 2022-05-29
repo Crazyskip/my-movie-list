@@ -4,6 +4,7 @@ import ContentContainer from "../components/contentContainer";
 import { useSession, signIn } from "next-auth/react";
 import GoogleButton from "react-google-button";
 import { useRouter } from "next/router";
+import Spinner from "../components/spinner";
 
 const Login: NextPage = () => {
   const { status } = useSession();
@@ -12,7 +13,11 @@ const Login: NextPage = () => {
   console.log(status);
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
   } else if (status === "authenticated") {
     router.push("/");
     return <></>;

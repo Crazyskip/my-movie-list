@@ -5,8 +5,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import FilmCard from "../../components/filmCard";
-import styled from "styled-components";
 import CardsContainer from "../../components/cardsContainer";
+import Spinner from "../../components/spinner";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -28,7 +28,12 @@ const List: NextPage = () => {
 
   if (error || listData?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!listData) return <ContentContainer>Loading...</ContentContainer>;
+  if (!listData)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   if (!listData.list) {
     return (

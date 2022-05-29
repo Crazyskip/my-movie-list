@@ -5,6 +5,7 @@ import useSWR from "swr";
 import ContentContainer from "../../../components/contentContainer";
 import Review from "../../../components/review";
 import SmallFilmHeader from "../../../components/smallFilmHeader";
+import Spinner from "../../../components/spinner";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -16,11 +17,14 @@ const Reviews: NextPage = () => {
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
-  if (!data) return <ContentContainer>Loading...</ContentContainer>;
+  if (!data)
+    return (
+      <ContentContainer>
+        <Spinner />
+      </ContentContainer>
+    );
 
   data.release_date = new Date(data.first_air_date);
-
-  console.log(data);
 
   return (
     <>
