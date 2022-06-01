@@ -7,6 +7,45 @@ import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { useState } from "react";
 import Spinner from "../../../components/spinner";
+import styled from "styled-components";
+
+const CreateListContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+
+  input {
+    font-size: 1rem;
+    padding: 8px 10px;
+    border-radius: 5px;
+    border: 1px #3d3d3d solid;
+
+    &:focus {
+      border: 2px #3d3d3d solid;
+    }
+  }
+
+  button {
+    background-color: #405cf4;
+    border-radius: 6px;
+    border: none;
+    box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+      rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    height: 44px;
+    margin: 12px 0 0;
+    padding: 0 25px;
+    width: 180px;
+
+    &:active {
+      box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
+        rgba(50, 50, 93, 0.2) 0 6px 15px 0, rgba(0, 0, 0, 0.1) 0 2px 2px 0,
+        rgba(50, 151, 211, 0.3) 0 0 0 4px;
+    }
+  }
+`;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -93,12 +132,14 @@ const Profile: NextPage = () => {
         <h1>
           Profile {data.user.username ? data.user.username : data.user.name}
         </h1>
-        <input
-          type="text"
-          value={listName}
-          onChange={(e) => setListName(e.target.value)}
-        />
-        <button onClick={createList}>Create List</button>
+        <CreateListContainer>
+          <input
+            type="text"
+            value={listName}
+            onChange={(e) => setListName(e.target.value)}
+          />
+          <button onClick={createList}>Create List</button>
+        </CreateListContainer>
         <h2>Lists ({data.user.lists.length})</h2>
         <div>
           {data.user.lists.map((list: any) => (
