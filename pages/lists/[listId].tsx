@@ -13,8 +13,6 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const arrayFetcher = (urlArray: string[]) => Promise.all(urlArray.map(fetcher));
 
 const List: NextPage = () => {
-  const { data: session } = useSession();
-
   const router = useRouter();
   const { listId } = router.query;
 

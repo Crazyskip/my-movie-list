@@ -7,51 +7,11 @@ import useSWR, { useSWRConfig } from "swr";
 import Link from "next/link";
 import { useState } from "react";
 import Spinner from "../../../components/spinner";
-import styled from "styled-components";
-
-const CreateListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-
-  input {
-    font-size: 1rem;
-    padding: 8px 10px;
-    border-radius: 5px;
-    border: 1px #3d3d3d solid;
-
-    &:focus {
-      border: 2px #3d3d3d solid;
-    }
-  }
-
-  button {
-    background-color: #405cf4;
-    border-radius: 6px;
-    border: none;
-    box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
-      rgba(50, 50, 93, 0.1) 0 2px 5px 0, rgba(0, 0, 0, 0.07) 0 1px 1px 0;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1rem;
-    height: 44px;
-    margin: 12px 0 0;
-    padding: 0 25px;
-    width: 180px;
-
-    &:active {
-      box-shadow: rgba(50, 50, 93, 0.1) 0 0 0 1px inset,
-        rgba(50, 50, 93, 0.2) 0 6px 15px 0, rgba(0, 0, 0, 0.1) 0 2px 2px 0,
-        rgba(50, 151, 211, 0.3) 0 0 0 4px;
-    }
-  }
-`;
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Profile: NextPage = () => {
   const [listName, setListName] = useState("");
-  const { data: session } = useSession();
 
   const router = useRouter();
   const { profileId } = router.query;
@@ -67,38 +27,6 @@ const Profile: NextPage = () => {
         <Spinner />
       </ContentContainer>
     );
-
-  const createList = () => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: listName }),
-    };
-    fetch("/api/list", requestOptions).then((response) => {
-      if (response.status === 201) {
-        document.cookie =
-          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        mutate(`/api/user/${profileId}`);
-        setListName("");
-      } else {
-        response.json().then(({ message }) => alert(message));
-      }
-    });
-  };
-
-  const deleteList = (listId: string) => {
-    const requestOptions = {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    };
-    fetch(`/api/list/${listId}`, requestOptions).then((response) => {
-      if (response.status === 200) {
-        document.cookie =
-          "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-        mutate(`/api/user/${profileId}`);
-      }
-    });
-  };
 
   if (!data.user) {
     return (
@@ -132,14 +60,6 @@ const Profile: NextPage = () => {
         <h1>
           Profile {data.user.username ? data.user.username : data.user.name}
         </h1>
-        <CreateListContainer>
-          <input
-            type="text"
-            value={listName}
-            onChange={(e) => setListName(e.target.value)}
-          />
-          <button onClick={createList}>Create List</button>
-        </CreateListContainer>
         <h2>Lists ({data.user.lists.length})</h2>
         <div>
           {data.user.lists.map((list: any) => (
@@ -156,14 +76,6 @@ const Profile: NextPage = () => {
                     <h3>{list.name}</h3>
                   </a>
                 </Link>
-                {list.name !== "Watchlist" && list.name !== "Favourites" ? (
-                  <div
-                    style={{ color: "red", cursor: "pointer" }}
-                    onClick={() => deleteList(list.id)}
-                  >
-                    Delete
-                  </div>
-                ) : null}
               </div>
               <hr />
             </div>
