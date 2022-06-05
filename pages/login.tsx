@@ -10,8 +10,6 @@ const Login: NextPage = () => {
   const { status } = useSession();
   const router = useRouter();
 
-  console.log(status);
-
   if (status === "loading") {
     return (
       <ContentContainer>

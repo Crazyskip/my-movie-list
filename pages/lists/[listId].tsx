@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import ContentContainer from "../../components/contentContainer";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import FilmCard from "../../components/filmCard";

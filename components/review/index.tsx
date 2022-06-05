@@ -14,7 +14,6 @@ const getDateString = (dateString: string) => {
 
 // Returns path of image based on format provided
 const formatProfilePicture = (imageString: string) => {
-  console.log(imageString);
   if (!imageString || imageString === "") {
     return "/assets/img/profile.jpg";
   } else {

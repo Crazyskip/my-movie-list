@@ -47,7 +47,8 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
       body: JSON.stringify({ filmId: film.id, filmType: type + "s", listName }),
     };
     fetch("/api/film", requestOptions).then((response) => {
-      console.log(response);
+      // Add functionality to change colour of icon when added
+      // Add functionality to remove from favourites and watchlist
     });
   };
 
@@ -108,11 +109,14 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
                 <FontAwesomeIcon icon={faList} />
               </FunctionButton>
             </FunctionsContainer>
+
             <Tagline>{film.tagline}</Tagline>
+
             <Overview>
               <h3>Overview</h3>
               <div>{film.overview}</div>
             </Overview>
+
             {type === "movie" ? (
               <DetailsContainer>
                 <Detail>

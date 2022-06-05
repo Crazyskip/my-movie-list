@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { PrismaClient } from "@prisma/client";
-import { getSession } from "next-auth/react";
 
 const prisma = new PrismaClient();
 
@@ -9,8 +8,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     query: { userId },
     method,
   } = req;
-
-  const session = await getSession({ req });
 
   if (method === "GET") {
     const user: object | null = await prisma.user.findUnique({

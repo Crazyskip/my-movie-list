@@ -113,7 +113,7 @@ const Profile: NextPage = ({ userData }: any) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContentContainer as="main">
-        <h1>Profile {user.username ? user.username : user.name}</h1>
+        <h1>{user.username ? user.username : user.name}</h1>
         <CreateListContainer>
           <input
             type="text"
