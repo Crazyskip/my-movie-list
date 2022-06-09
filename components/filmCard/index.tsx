@@ -1,6 +1,7 @@
 import { faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
+import { Movie, Show } from "../../commons/types";
 import { CardContainer, CardContent, CardImage, CardTitle } from "./styles";
 
 // Returns date in format dd mon YYYY
@@ -14,29 +15,35 @@ const getDateString = (dateString: string) => {
   return formattedDate;
 };
 
-const FilmCard = ({ film, type }: { film: any; type: "movies" | "shows" }) => {
-  if (type === "movies" && (film.release_date === "" || !film.poster_path))
+const isMovie = (film: any): film is Movie => {
+  return film.release_date;
+};
+
+const FilmCard = ({ film }: { film: Movie | Show }) => {
+  if (isMovie(film) && (film.release_date === "" || !film.poster_path))
     return null;
-  if (type === "shows" && (film.first_air_date === "" || !film.poster_path))
+  if (!isMovie(film) && (film.first_air_date === "" || !film.poster_path))
     return null;
+
+  const link = `/${isMovie(film) ? "movies" : "shows"}/${film.id}`;
 
   return (
     <CardContainer>
-      <Link href={`/${type}/${film.id}`}>
+      <Link href={link}>
         <a>
           <CardImage
             src={`https://image.tmdb.org/t/p/w500${film.poster_path}`}
             width="250"
             height="375"
-            alt={film.title}
+            alt={isMovie(film) ? film.title : film.name}
             layout="responsive"
           />
         </a>
       </Link>
       <CardContent>
-        <Link href={`/${type}/${film.id}`}>
+        <Link href={link}>
           <a>
-            <CardTitle>{type === "movies" ? film.title : film.name}</CardTitle>
+            <CardTitle>{isMovie(film) ? film.title : film.name}</CardTitle>
           </a>
         </Link>
         <FontAwesomeIcon
@@ -45,7 +52,7 @@ const FilmCard = ({ film, type }: { film: any; type: "movies" | "shows" }) => {
         />
         {film.vote_average}
         <div>
-          {type === "movies"
+          {isMovie(film)
             ? getDateString(film.release_date)
             : getDateString(film.first_air_date)}
         </div>

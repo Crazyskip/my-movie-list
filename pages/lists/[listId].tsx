@@ -6,6 +6,7 @@ import useSWR from "swr";
 import FilmCard from "../../components/filmCard";
 import CardsContainer from "../../components/cardsContainer";
 import Spinner from "../../components/spinner";
+import { Movie, Show } from "../../commons/types";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -63,12 +64,8 @@ const List: NextPage = () => {
       <ContentContainer as="main">
         <h1>{listData.list.name}</h1>
         <CardsContainer>
-          {filmsData?.map((film: any) => (
-            <FilmCard
-              key={film.id}
-              film={film}
-              type={film.number_of_seasons ? "shows" : "movies"}
-            />
+          {filmsData?.map((film: Movie | Show) => (
+            <FilmCard key={film.id} film={film} />
           ))}
         </CardsContainer>
       </ContentContainer>

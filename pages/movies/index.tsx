@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
+import { Movie } from "../../commons/types";
 import CardsContainer from "../../components/cardsContainer";
 import ContentContainer from "../../components/contentContainer";
 import FilmCard from "../../components/filmCard";
@@ -30,7 +31,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const PopularMovies: NextPage = () => {
   const [page, setPage] = useState(1);
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const { data, error } = useSWR("/api/movies/popular?page=1", fetcher);
 
   useEffect(() => {
@@ -66,8 +67,8 @@ const PopularMovies: NextPage = () => {
       <ContentContainer as="main">
         <h1>Popular Movies</h1>
         <CardsContainer>
-          {movies.map((movie: any) => (
-            <FilmCard key={movie.id} film={movie} type="movies" />
+          {movies.map((movie: Movie) => (
+            <FilmCard key={movie.id} film={movie} />
           ))}
         </CardsContainer>
         <StyledButton onClick={addMovies}>Load More</StyledButton>

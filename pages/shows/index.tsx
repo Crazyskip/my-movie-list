@@ -3,6 +3,7 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import useSWR from "swr";
+import { Show } from "../../commons/types";
 import CardsContainer from "../../components/cardsContainer";
 import ContentContainer from "../../components/contentContainer";
 import FilmCard from "../../components/filmCard";
@@ -30,8 +31,9 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const PopularShows: NextPage = () => {
   const [page, setPage] = useState(1);
-  const [shows, setShows] = useState([]);
+  const [shows, setShows] = useState<Show[]>([]);
   const { data, error } = useSWR("/api/shows/popular?page=1", fetcher);
+  console.log(data?.results);
 
   useEffect(() => {
     if (data) setShows(data.results);
@@ -66,8 +68,8 @@ const PopularShows: NextPage = () => {
       <ContentContainer as="main">
         <h1>Popular TV Shows</h1>
         <CardsContainer>
-          {shows.map((show: any) => (
-            <FilmCard key={show.id} film={show} type="shows" />
+          {shows.map((show: Show) => (
+            <FilmCard key={show.id} film={show} />
           ))}
         </CardsContainer>
         <StyledButton onClick={addShows}>Load More</StyledButton>
