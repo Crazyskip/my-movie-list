@@ -5,6 +5,7 @@ import device from "../../commons/breakpoints";
 export const CardContainer = styled.div`
   margin: 5px;
   width: 100%;
+  min-width: 175px;
   height: 100%;
   border: 1px solid #cccccc;
   border-radius: 8px;
