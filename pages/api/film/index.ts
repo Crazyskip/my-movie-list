@@ -58,8 +58,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               data: {
                 films: {
                   set: watchlist.films.filter(
-                    (film) =>
-                      film.id !== body.filmId && film.type !== body.filmType
+                    (film) => film.id !== body.filmId
                   ),
                 },
               },
@@ -112,8 +111,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               data: {
                 films: {
                   set: favourites.films.filter(
-                    (film) =>
-                      film.id !== body.filmId && film.type !== body.filmType
+                    (film) => film.id !== body.filmId
                   ),
                 },
               },
@@ -167,8 +165,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               data: {
                 films: {
                   set: customList.films.filter(
-                    (film) =>
-                      film.id !== body.filmId && film.type !== body.filmType
+                    (film) => film.id !== body.filmId
                   ),
                 },
               },
