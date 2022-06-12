@@ -106,7 +106,7 @@ const Movie: NextPage = () => {
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <FilmHeader film={data} type="movie" />
+      <FilmHeader filmData={data} type="movie" />
       <ContentContainer>
         {data.cast.length ? (
           <>

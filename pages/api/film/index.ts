@@ -49,12 +49,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             });
 
-            return res.status(200).json({ result });
-          }
+            return res.status(200).json({ result, inList: true });
+          } else {
+            const result = await prisma.list.update({
+              where: {
+                id: watchlist.id,
+              },
+              data: {
+                films: {
+                  set: watchlist.films.filter(
+                    (film) =>
+                      film.id !== body.filmId && film.type !== body.filmType
+                  ),
+                },
+              },
+            });
 
-          return res
-            .status(400)
-            .json({ message: "Film already exists in list" });
+            return res.status(200).json({ result, inList: false });
+          }
         } else if (body.listName === "Favourites") {
           let favourites = await prisma.list.findFirst({
             where: {
@@ -91,12 +103,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
                 },
               },
             });
-            return res.status(200).json({ result });
-          }
+            return res.status(200).json({ result, inList: true });
+          } else {
+            const result = await prisma.list.update({
+              where: {
+                id: favourites.id,
+              },
+              data: {
+                films: {
+                  set: favourites.films.filter(
+                    (film) =>
+                      film.id !== body.filmId && film.type !== body.filmType
+                  ),
+                },
+              },
+            });
 
-          return res
-            .status(400)
-            .json({ message: "Film already exists in list" });
+            return res.status(200).json({ result, inList: false });
+          }
         } else {
           let customList = await prisma.list.findFirst({
             where: {
@@ -134,12 +158,24 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
               },
             });
 
-            return res.status(200).json({ result });
-          }
+            return res.status(200).json({ result, inList: true });
+          } else {
+            const result = await prisma.list.update({
+              where: {
+                id: customList.id,
+              },
+              data: {
+                films: {
+                  set: customList.films.filter(
+                    (film) =>
+                      film.id !== body.filmId && film.type !== body.filmType
+                  ),
+                },
+              },
+            });
 
-          return res
-            .status(400)
-            .json({ message: "Film already exists in list" });
+            return res.status(200).json({ result, inList: false });
+          }
         }
       }
     }

@@ -6,6 +6,8 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
+import { useState } from "react";
+import { useSWRConfig } from "swr";
 import ContentContainer from "../contentContainer";
 import {
   Description,
@@ -39,7 +41,16 @@ const getDateString = (dateString: Date) => {
   return formattedDate;
 };
 
-const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
+const FilmHeader = ({
+  filmData,
+  type,
+}: {
+  filmData: any;
+  type: "movie" | "show";
+}) => {
+  const [film, setFilm] = useState(filmData);
+  const { mutate } = useSWRConfig();
+
   const addToList = (listName: string) => {
     const requestOptions = {
       method: "POST",
@@ -47,8 +58,18 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
       body: JSON.stringify({ filmId: film.id, filmType: type + "s", listName }),
     };
     fetch("/api/film", requestOptions).then((response) => {
-      // Add functionality to change colour of icon when added
-      // Add functionality to remove from favourites and watchlist
+      if (response.status === 200) {
+        response.json().then((data) => {
+          if (listName === "Watchlist") {
+            setFilm({ ...film, inWatchlist: data.inList });
+          } else if (listName === "Favourites") {
+            setFilm({ ...film, inFavourites: data.inList });
+          }
+          document.cookie =
+            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+          mutate(`/api/${type + "s"}/${film.id}`);
+        });
+      }
     });
   };
 
@@ -97,13 +118,19 @@ const FilmHeader = ({ film, type }: { film: any; type: "movie" | "show" }) => {
                 data-tip={`Add ${type} to favourite list`}
                 onClick={() => addToList("Favourites")}
               >
-                <FontAwesomeIcon icon={faHeart} />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  style={{ color: film.inFavourites ? "#fc0f0f" : "#fff" }}
+                />
               </FunctionButton>
               <FunctionButton
                 data-tip={`Add ${type} to watchlist`}
                 onClick={() => addToList("Watchlist")}
               >
-                <FontAwesomeIcon icon={faBookmark} />
+                <FontAwesomeIcon
+                  icon={faBookmark}
+                  style={{ color: film.inWatchlist ? "#00c8ff" : "#fff" }}
+                />
               </FunctionButton>
               <FunctionButton data-tip={`Add ${type} to custom list`}>
                 <FontAwesomeIcon icon={faList} />

@@ -14,7 +14,7 @@ interface ContainerProps {
 
 const Container = styled.div<ContainerProps>`
   padding: 0 10px;
-  margin: 30px auto;
+  margin: 0px auto;
   max-width: 1400px;
   min-height: ${({ minHeight }) =>
     minHeight ? minHeight : "calc(100vh - 64px)"};

@@ -79,7 +79,7 @@ const Home: NextPage = () => {
     );
 
   return (
-    <div style={{ marginTop: "-30px" }}>
+    <div>
       <Head>
         <title>Home - My Movie List</title>
         <meta

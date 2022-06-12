@@ -33,7 +33,6 @@ const PopularShows: NextPage = () => {
   const [page, setPage] = useState(1);
   const [shows, setShows] = useState<Show[]>([]);
   const { data, error } = useSWR("/api/shows/popular?page=1", fetcher);
-  console.log(data?.results);
 
   useEffect(() => {
     if (data) setShows(data.results);
