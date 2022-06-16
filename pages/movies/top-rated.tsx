@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useEffect, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
 import styled from "styled-components";
 import useSWR from "swr";
 import { Movie } from "../../commons/types";
@@ -27,11 +28,18 @@ const StyledButton = styled.button`
   }
 `;
 
+const Loader = styled.h4`
+  text-align: center;
+  margin: 10px 0;
+  font-size: 1.8rem;
+`;
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const TopRatedMovies: NextPage = () => {
   const [page, setPage] = useState(1);
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [loadMore, setLoadMore] = useState(false);
   const { data, error } = useSWR("/api/movies/top-rated?page=1", fetcher);
 
   useEffect(() => {
@@ -66,12 +74,29 @@ const TopRatedMovies: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>Top Rated Movies</h1>
-        <CardsContainer>
-          {movies.map((movie: Movie) => (
-            <FilmCard key={movie.id} film={movie} />
-          ))}
-        </CardsContainer>
-        <StyledButton onClick={addMovies}>Load More</StyledButton>
+        <InfiniteScroll
+          dataLength={movies.length}
+          next={addMovies}
+          hasMore={loadMore}
+          loader={<Loader>Loading...</Loader>}
+          scrollThreshold={0.9}
+        >
+          <CardsContainer>
+            {movies.map((movie: Movie) => (
+              <FilmCard key={movie.id} film={movie} />
+            ))}
+          </CardsContainer>
+        </InfiniteScroll>
+        {!loadMore ? (
+          <StyledButton
+            onClick={() => {
+              setLoadMore(true);
+              addMovies();
+            }}
+          >
+            Load More
+          </StyledButton>
+        ) : null}
       </ContentContainer>
     </>
   );
