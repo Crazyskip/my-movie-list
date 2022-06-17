@@ -79,7 +79,7 @@ const NowPlayingMovies: NextPage = () => {
           next={addMovies}
           hasMore={loadMore}
           loader={<Loader>Loading...</Loader>}
-          scrollThreshold={0.9}
+          scrollThreshold={0.85}
         >
           <CardsContainer>
             {movies.map((movie: Movie) => (

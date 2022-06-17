@@ -79,7 +79,7 @@ const TopRatedShows: NextPage = () => {
           next={addShows}
           hasMore={loadMore}
           loader={<Loader>Loading...</Loader>}
-          scrollThreshold={0.9}
+          scrollThreshold={0.85}
         >
           <CardsContainer>
             {shows.map((show: Show) => (

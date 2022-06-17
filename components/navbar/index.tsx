@@ -1,5 +1,8 @@
 import {
   Dropdown,
+  MenuLinks,
+  MenuToggle,
+  MobileLinks,
   NavContainer,
   NavLink,
   NavLinkGroup,
@@ -8,15 +11,32 @@ import {
 } from "./styles";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
+import { useState } from "react";
 
 const Navbar = () => {
   const { data: session } = useSession();
+  const [active, setActive] = useState(false);
   return (
     <NavContainer>
       <Link href="/" passHref>
         <NavLogo>MyMovieList</NavLogo>
       </Link>
-      <NavLinks>
+      <MenuToggle
+        role="button"
+        tabIndex={0}
+        aria-pressed="false"
+        aria-label="Toggle nav menu"
+        onClick={() => setActive(!active)}
+        onKeyDown={(e) =>
+          e.code === "Enter" || e.code === "Space" ? setActive(!active) : null
+        }
+        active={active}
+      >
+        <div></div>
+        <div></div>
+        <div></div>
+      </MenuToggle>
+      <NavLinks active={active}>
         <NavLinkGroup>
           <Dropdown>
             <Link href="/movies" passHref>
@@ -97,6 +117,40 @@ const Navbar = () => {
           </NavLinkGroup>
         )}
       </NavLinks>
+      <MenuLinks active={active}>
+        <MobileLinks>
+          <div>Movies</div>
+          <div>TV Shows</div>
+          {session ? (
+            <>
+              <Link href="/profile" passHref>
+                <NavLink>Profile</NavLink>
+              </Link>
+              <NavLink
+                as="div"
+                role="button"
+                tabIndex={0}
+                aria-pressed="false"
+                onKeyDown={(e: any) =>
+                  e.code === "Enter" || e.code === "Space" ? signOut() : null
+                }
+                onClick={() => signOut()}
+              >
+                Signout
+              </NavLink>
+            </>
+          ) : (
+            <>
+              <Link href="/login" passHref>
+                <NavLink>Login</NavLink>
+              </Link>
+              <Link href="/signup" passHref>
+                <NavLink>Signup</NavLink>
+              </Link>
+            </>
+          )}
+        </MobileLinks>
+      </MenuLinks>
     </NavContainer>
   );
 };
