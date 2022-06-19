@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import ContentContainer from "../../components/contentContainer";
+import ContentContainer from "../../../components/contentContainer";
 import { useRouter } from "next/router";
 import useSWR from "swr";
-import FilmCard from "../../components/filmCard";
-import CardsContainer from "../../components/cardsContainer";
-import Spinner from "../../components/spinner";
-import { Movie, Show } from "../../commons/types";
+import FilmCard from "../../../components/filmCard";
+import CardsContainer from "../../../components/cardsContainer";
+import Spinner from "../../../components/spinner";
+import { Movie, Show } from "../../../commons/types";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

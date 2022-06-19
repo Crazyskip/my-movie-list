@@ -1,23 +1,18 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import ContentContainer from "../../../components/contentContainer";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import Link from "next/link";
-import { useState } from "react";
 import Spinner from "../../../components/spinner";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const Profile: NextPage = () => {
-  const [listName, setListName] = useState("");
-
   const router = useRouter();
   const { profileId } = router.query;
 
   const { data, error } = useSWR(`/api/user/${profileId}`, fetcher);
-  const { mutate } = useSWRConfig();
 
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;

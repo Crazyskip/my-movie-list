@@ -23,6 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         createdAt: true,
         updatedAt: true,
         films: true,
+        authorId: true,
       },
     });
     return res.status(200).json({ list });
