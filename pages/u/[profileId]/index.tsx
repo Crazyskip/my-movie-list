@@ -14,8 +14,6 @@ const Profile: NextPage = () => {
 
   const { data, error } = useSWR(`/api/user/${profileId}`, fetcher);
 
-  console.log(data);
-
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
   if (!data)

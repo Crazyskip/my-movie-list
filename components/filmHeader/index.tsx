@@ -1,6 +1,8 @@
 import { faBookmark, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useSession } from "next-auth/react";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSWRConfig } from "swr";
 import ContentContainer from "../contentContainer";
@@ -45,27 +47,36 @@ const FilmHeader = ({
 }) => {
   const [film, setFilm] = useState(filmData);
   const { mutate } = useSWRConfig();
+  const { data: session } = useSession();
+  const router = useRouter();
 
-  const addToList = (listName: string) => {
-    const requestOptions = {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filmId: film.id, filmType: type + "s" }),
-    };
-    fetch(`/api/user/${listName}`, requestOptions).then((response) => {
-      if (response.status === 200) {
-        response.json().then((data) => {
-          if (listName === "watchlist") {
-            setFilm({ ...film, inWatchlist: data.inList });
-          } else if (listName === "favourites") {
-            setFilm({ ...film, inFavourites: data.inList });
+  const updateList = (listName: "watchlist" | "favourites") => {
+    if (session) {
+      const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ filmId: film.id, filmType: type + "s" }),
+      };
+
+      fetch(`/api/user/${session.userId}/${listName}`, requestOptions).then(
+        (response) => {
+          if (response.status === 200) {
+            response.json().then((data) => {
+              if (listName === "watchlist") {
+                setFilm({ ...film, inWatchlist: data.inList });
+              } else if (listName === "favourites") {
+                setFilm({ ...film, inFavourites: data.inList });
+              }
+              document.cookie =
+                "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+              mutate(`/api/${type + "s"}/${film.id}`);
+            });
           }
-          document.cookie =
-            "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-          mutate(`/api/${type + "s"}/${film.id}`);
-        });
-      }
-    });
+        }
+      );
+    } else {
+      router.push("/login");
+    }
   };
 
   return (
@@ -107,11 +118,11 @@ const FilmHeader = ({
                   style={{ marginRight: "5px", color: "#e6d817" }}
                   icon={faStar}
                 />
-                {film.vote_average}
+                {film.vote_average.toFixed(1)}
               </span>
               <FunctionButton
                 data-tip={`Add ${type} to favourite list`}
-                onClick={() => addToList("favourites")}
+                onClick={() => updateList("favourites")}
               >
                 <FontAwesomeIcon
                   icon={faHeart}
@@ -120,7 +131,7 @@ const FilmHeader = ({
               </FunctionButton>
               <FunctionButton
                 data-tip={`Add ${type} to watchlist`}
-                onClick={() => addToList("watchlist")}
+                onClick={() => updateList("watchlist")}
               >
                 <FontAwesomeIcon
                   icon={faBookmark}

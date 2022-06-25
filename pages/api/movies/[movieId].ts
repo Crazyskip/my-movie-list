@@ -55,10 +55,48 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     movie.reviews = reviews.results;
     movie.recommended = recommended.results;
 
+    if (session) {
+      const { inWatchlist, inFavourites } = await getInLists(
+        session.userId as string,
+        movie
+      );
+      movie.inWatchlist = inWatchlist;
+      movie.inFavourites = inFavourites;
+    } else {
+      movie.inWatchlist = false;
+      movie.inFavourites = false;
+    }
+
     return res.status(200).json(movie);
   }
 
   res.status(404);
+};
+
+const getInLists = async (userId: string, movie: any) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: userId,
+    },
+    select: {
+      watchlist: true,
+      favourites: true,
+    },
+  });
+
+  if (user) {
+    const inWatchlist = user.watchlist.some(
+      (film: any) => film.id === movie.id && film.type === "movies"
+    );
+
+    const inFavourites = user.favourites.some(
+      (film: any) => film.id === movie.id && film.type === "movies"
+    );
+
+    return { inWatchlist, inFavourites };
+  }
+
+  return { inWatchlist: false, inFavourites: false };
 };
 
 export default handler;

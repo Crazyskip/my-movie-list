@@ -50,7 +50,7 @@ const FilmCard = ({ film }: { film: Movie | Show }) => {
           style={{ marginRight: "5px", color: "#e6d817" }}
           icon={faStar}
         />
-        {film.vote_average}
+        {film.vote_average.toFixed(1)}
         <div>
           {isMovie(film)
             ? getDateString(film.release_date)

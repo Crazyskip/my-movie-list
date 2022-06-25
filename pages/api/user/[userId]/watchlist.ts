@@ -27,23 +27,62 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (method === "POST") {
     const session = await getSession({ req });
 
-    if (session) {
-      const user = await prisma.user.update({
+    if (session?.userId === userId) {
+      const user = await prisma.user.findUnique({
         where: {
           id: session.userId as string,
         },
-        data: {
-          watchlist: {
-            push: {
-              id: body.filmId,
-              type: body.filmType,
-            },
-          },
+        select: {
+          watchlist: true,
         },
       });
 
       if (user) {
-        return res.status(200).json({ films: user.watchlist });
+        const inList = user.watchlist.some(
+          (film: any) => film.id === body.filmId && film.type === body.filmType
+        );
+
+        if (!inList) {
+          const updatedUser = await prisma.user.update({
+            where: {
+              id: session.userId as string,
+            },
+            data: {
+              watchlist: {
+                push: {
+                  id: body.filmId,
+                  type: body.filmType,
+                },
+              },
+            },
+          });
+
+          if (updatedUser) {
+            return res
+              .status(200)
+              .json({ watchlist: updatedUser.watchlist, inList: true });
+          }
+        } else {
+          const updatedUser = await prisma.user.update({
+            where: {
+              id: session.userId as string,
+            },
+            data: {
+              watchlist: {
+                set: user.watchlist.filter(
+                  (film) =>
+                    film.id !== body.filmId && film.type !== body.filmType
+                ),
+              },
+            },
+          });
+
+          if (updatedUser) {
+            return res
+              .status(200)
+              .json({ watchlist: updatedUser.watchlist, inList: false });
+          }
+        }
       }
     }
   }

@@ -27,23 +27,62 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   } else if (method === "POST") {
     const session = await getSession({ req });
 
-    if (session) {
-      const user = await prisma.user.update({
+    if (session?.userId === userId) {
+      const user = await prisma.user.findUnique({
         where: {
           id: session.userId as string,
         },
-        data: {
-          favourites: {
-            push: {
-              id: body.filmId,
-              type: body.filmType,
-            },
-          },
+        select: {
+          favourites: true,
         },
       });
 
       if (user) {
-        return res.status(200).json({ films: user.favourites });
+        const inList = user.favourites.some(
+          (film: any) => film.id === body.filmId && film.type === body.filmType
+        );
+
+        if (!inList) {
+          const updatedUser = await prisma.user.update({
+            where: {
+              id: session.userId as string,
+            },
+            data: {
+              favourites: {
+                push: {
+                  id: body.filmId,
+                  type: body.filmType,
+                },
+              },
+            },
+          });
+
+          if (updatedUser) {
+            return res
+              .status(200)
+              .json({ favourites: updatedUser.favourites, inList: true });
+          }
+        } else {
+          const updatedUser = await prisma.user.update({
+            where: {
+              id: session.userId as string,
+            },
+            data: {
+              favourites: {
+                set: user.favourites.filter(
+                  (film) =>
+                    film.id !== body.filmId && film.type !== body.filmType
+                ),
+              },
+            },
+          });
+
+          if (updatedUser) {
+            return res
+              .status(200)
+              .json({ favourites: updatedUser.favourites, inList: false });
+          }
+        }
       }
     }
   }

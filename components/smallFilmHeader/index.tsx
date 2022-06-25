@@ -35,7 +35,7 @@ const SmallFilmHeader = ({
             style={{ marginRight: "5px", color: "#e6d817" }}
             icon={faStar}
           />
-          {film.vote_average}
+          {film.vote_average.toFixed(1)}
         </Details>
       </Content>
     </ContentContainer>
