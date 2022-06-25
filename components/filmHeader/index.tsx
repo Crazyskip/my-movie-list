@@ -1,9 +1,4 @@
-import {
-  faBookmark,
-  faHeart,
-  faList,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
+import { faBookmark, faHeart, faStar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import dynamic from "next/dynamic";
 import { useState } from "react";
@@ -55,14 +50,14 @@ const FilmHeader = ({
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filmId: film.id, filmType: type + "s", listName }),
+      body: JSON.stringify({ filmId: film.id, filmType: type + "s" }),
     };
-    fetch("/api/film", requestOptions).then((response) => {
+    fetch(`/api/user/${listName}`, requestOptions).then((response) => {
       if (response.status === 200) {
         response.json().then((data) => {
-          if (listName === "Watchlist") {
+          if (listName === "watchlist") {
             setFilm({ ...film, inWatchlist: data.inList });
-          } else if (listName === "Favourites") {
+          } else if (listName === "favourites") {
             setFilm({ ...film, inFavourites: data.inList });
           }
           document.cookie =
@@ -116,7 +111,7 @@ const FilmHeader = ({
               </span>
               <FunctionButton
                 data-tip={`Add ${type} to favourite list`}
-                onClick={() => addToList("Favourites")}
+                onClick={() => addToList("favourites")}
               >
                 <FontAwesomeIcon
                   icon={faHeart}
@@ -125,15 +120,12 @@ const FilmHeader = ({
               </FunctionButton>
               <FunctionButton
                 data-tip={`Add ${type} to watchlist`}
-                onClick={() => addToList("Watchlist")}
+                onClick={() => addToList("watchlist")}
               >
                 <FontAwesomeIcon
                   icon={faBookmark}
                   style={{ color: film.inWatchlist ? "#00c8ff" : "#fff" }}
                 />
-              </FunctionButton>
-              <FunctionButton data-tip={`Add ${type} to custom list`}>
-                <FontAwesomeIcon icon={faList} />
               </FunctionButton>
             </FunctionsContainer>
 

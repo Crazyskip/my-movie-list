@@ -17,8 +17,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       select: {
         username: true,
         name: true,
-        createdAt: true,
-        lists: true,
+        favourites: true,
+        watchlist: true,
       },
     });
 

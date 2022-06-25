@@ -14,6 +14,8 @@ const Profile: NextPage = () => {
 
   const { data, error } = useSWR(`/api/user/${profileId}`, fetcher);
 
+  console.log(data);
+
   if (error || data?.success === false)
     return <ContentContainer>An error has occurred.</ContentContainer>;
   if (!data)
@@ -55,26 +57,40 @@ const Profile: NextPage = () => {
         <h1>
           Profile {data.user.username ? data.user.username : data.user.name}
         </h1>
-        <h2>Lists ({data.user.lists.length})</h2>
+        <h2>Lists</h2>
         <div>
-          {data.user.lists.map((list: any) => (
-            <div key={list.id}>
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Link href={`/lists/${list.id}`}>
-                  <a>
-                    <h3>{list.name}</h3>
-                  </a>
-                </Link>
-              </div>
-              <hr />
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Link href={`/u/${profileId}/watchlist`}>
+                <a>
+                  <h3>Watchlist</h3>
+                </a>
+              </Link>
             </div>
-          ))}
+            <hr />
+          </div>
+          <div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Link href={`/u/${profileId}/favourites`}>
+                <a>
+                  <h3>Favourites</h3>
+                </a>
+              </Link>
+            </div>
+            <hr />
+          </div>
         </div>
       </ContentContainer>
     </>

@@ -55,41 +55,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     movie.reviews = reviews.results;
     movie.recommended = recommended.results;
 
-    if (session) {
-      const user = await prisma.user.findUnique({
-        where: {
-          id: session.userId as string,
-        },
-        select: {
-          lists: true,
-        },
-      });
-
-      const watchlist = user?.lists.find(
-        (list: any) => list.name === "Watchlist"
-      );
-
-      const favourites = user?.lists.find(
-        (list: any) => list.name === "Favourites"
-      );
-
-      if (watchlist) {
-        if (watchlist.films.some((film: any) => film.id == movieId)) {
-          movie.inWatchlist = true;
-        } else {
-          movie.inWatchlist = false;
-        }
-      }
-
-      if (favourites) {
-        if (favourites.films.some((film: any) => film.id == movieId)) {
-          movie.inFavourites = true;
-        } else {
-          movie.inFavourites = false;
-        }
-      }
-    }
-
     return res.status(200).json(movie);
   }
 

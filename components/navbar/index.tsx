@@ -90,7 +90,7 @@ const Navbar = () => {
         </NavLinkGroup>
         {session ? (
           <NavLinkGroup>
-            <Link href="/profile" passHref>
+            <Link href={`/u/${session.userId}`} passHref>
               <NavLink>Profile</NavLink>
             </Link>
             <NavLink
@@ -123,7 +123,7 @@ const Navbar = () => {
           <div>TV Shows</div>
           {session ? (
             <>
-              <Link href="/profile" passHref>
+              <Link href={`/u/${session.userId}`} passHref>
                 <NavLink>Profile</NavLink>
               </Link>
               <NavLink

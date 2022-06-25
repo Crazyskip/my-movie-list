@@ -14,11 +14,14 @@ const arrayFetcher = (urlArray: string[]) => Promise.all(urlArray.map(fetcher));
 
 const List: NextPage = () => {
   const router = useRouter();
-  const { listId } = router.query;
+  const { profileId, listName } = router.query;
 
-  const { data: listData, error } = useSWR(`/api/list/${listId}`, fetcher);
+  const { data: listData, error } = useSWR(
+    `/api/user/${profileId}/${listName}`,
+    fetcher
+  );
 
-  const urlArray = listData?.list.films.map(
+  const urlArray = listData?.films.map(
     (film: any) => `/api/${film.type}/${film.id}`
   );
 
@@ -33,7 +36,7 @@ const List: NextPage = () => {
       </ContentContainer>
     );
 
-  if (!listData.list) {
+  if (!listData.films) {
     return (
       <>
         <Head>
@@ -62,7 +65,7 @@ const List: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContentContainer as="main">
-        <h1>{listData.list.name}</h1>
+        <h1>{listName}</h1>
         <CardsContainer>
           {filmsData?.map((film: Movie | Show) => (
             <FilmCard key={film.id} film={film} />
