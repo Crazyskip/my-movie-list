@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
 import { useState } from "react";
+import MobileDropdown from "./mobileDropdown";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -119,8 +120,23 @@ const Navbar = () => {
       </NavLinks>
       <MenuLinks active={active}>
         <MobileLinks>
-          <div>Movies</div>
-          <div>TV Shows</div>
+          <MobileDropdown
+            title="Movies"
+            linkItems={[
+              { name: "Popular", link: "/movies" },
+              { name: "Now Playing", link: "/movies/now-playing" },
+              { name: "Upcoming", link: "/movies/upcoming" },
+              { name: "Top Rated", link: "/movies/top-rated" },
+            ]}
+          />
+          <MobileDropdown
+            title="TV Shows"
+            linkItems={[
+              { name: "Popular", link: "/shows" },
+              { name: "Currently Airing", link: "/movies/airing" },
+              { name: "Top Rated", link: "/movies/top-rated" },
+            ]}
+          />
           {session ? (
             <>
               <Link href={`/u/${session.userId}`} passHref>

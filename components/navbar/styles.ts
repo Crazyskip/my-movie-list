@@ -196,8 +196,4 @@ export const MobileLinks = styled.div`
     padding: 10px;
     cursor: pointer;
   }
-
-  div:first-child {
-    border-top: 1px solid #000;
-  }
 `;
