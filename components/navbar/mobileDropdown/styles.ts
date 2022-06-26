@@ -12,7 +12,11 @@ export const DropdownContainer = styled.div`
   }
 `;
 
-export const Title = styled.div``;
+export const Title = styled.div`
+  &:hover {
+    color: #e0e0e0;
+  }
+`;
 
 export const DropdownItems = styled.div<MenuProps>`
   display: ${({ active }) => (active ? "flex" : "none")};
@@ -32,4 +36,8 @@ export const DropdownItem = styled.a`
   cursor: pointer;
   background-color: #fff;
   color: #000;
+
+  &:hover {
+    color: #333;
+  }
 `;

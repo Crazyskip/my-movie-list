@@ -130,6 +130,10 @@ export const NavLink = styled.a`
   margin: 0 30px;
   padding: 10px;
   cursor: pointer;
+
+  &:hover {
+    color: #e0e0e0;
+  }
 `;
 
 export const MenuToggle = styled.div<MenuProps>`
