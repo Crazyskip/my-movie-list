@@ -11,12 +11,21 @@ import {
 } from "./styles";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import MobileDropdown from "./mobileDropdown";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const { data: session } = useSession();
+  const router = useRouter();
   const [active, setActive] = useState(false);
+
+  useEffect(() => {
+    if (active) {
+      setActive(!active);
+    }
+  }, [router.asPath]);
+
   return (
     <NavContainer>
       <Link href="/" passHref>

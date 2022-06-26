@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import {
   DropdownContainer,
   DropdownItem,
@@ -15,6 +16,14 @@ const MobileDropdown = ({
   linkItems: { name: string; link: string }[];
 }) => {
   const [active, setActive] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (active) {
+      setActive(!active);
+    }
+  }, [router.asPath]);
+
   return (
     <DropdownContainer>
       <Title onClick={() => setActive(!active)}>{title}</Title>
