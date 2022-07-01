@@ -90,6 +90,7 @@ const FilmHeader = ({
             width="300"
             height="450"
             alt={type === "movie" ? film.title : film.name}
+            layout="intrinsic"
           />
           <HeaderContent>
             <Title>

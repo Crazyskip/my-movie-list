@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import Image from "next/image";
+import device from "../../commons/breakpoints";
 
 type HeaderProps = {
   posterImage: string;
@@ -9,6 +10,7 @@ export const Header = styled.div<HeaderProps>`
   width: 100%;
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   background-image: linear-gradient(
       to bottom right,
       rgba(32, 32, 32, 1),
@@ -20,24 +22,55 @@ export const Header = styled.div<HeaderProps>`
 
 export const FlexContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   padding: 30px 0;
+
+  @media only screen and (${device.lg}) {
+    flex-direction: row;
+    align-items: flex-start;
+  }
 `;
 
 export const StyledImage = styled(Image)`
   border-radius: 8px;
+
+  @media only screen and (${device.lg}) {
+    position: relative;
+    width: 500px;
+    height: 900px;
+  }
 `;
 
 export const HeaderContent = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 20px 0 0 30px;
-  width: calc(100% - 340px);
+  align-items: center;
+  width: 100%;
   z-index: 1;
+
+  @media only screen and (${device.md}) {
+    width: 650px;
+  }
+
+  @media only screen and (${device.lg}) {
+    align-items: flex-start;
+    margin: 20px 0 0 30px;
+    width: calc(100% - 340px);
+  }
 `;
 
 export const Title = styled.h1`
   margin: 0;
-  font-size: 2.1rem;
+  font-size: 1.6rem;
+
+  text-align: center;
+
+  @media only screen and (${device.lg}) {
+    font-size: 2.1rem;
+    text-align: start;
+  }
 `;
 
 export const Year = styled.span`
@@ -80,6 +113,11 @@ export const Tagline = styled.h3`
 
 export const Overview = styled.div`
   margin-top: 15px;
+  text-align: center;
+
+  @media only screen and (${device.lg}) {
+    text-align: start;
+  }
 
   h3 {
     margin: 0 0 10px 0;
@@ -95,7 +133,11 @@ export const DetailsContainer = styled.div`
 `;
 
 export const Detail = styled.div`
-  margin-left: 50px;
+  margin-left: 30px;
+
+  @media only screen and (${device.sm}) {
+    margin-left: 50px;
+  }
 
   h4 {
     margin: 0;
