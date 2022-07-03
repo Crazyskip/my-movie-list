@@ -11,7 +11,7 @@ export const CardContainer = styled.div`
   border-radius: 8px;
   box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 
-  @media only screen and (${device.sm}) {
+  @media only screen and (${device.lg}) {
     max-width: 250px;
   }
 `;

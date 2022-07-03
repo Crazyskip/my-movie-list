@@ -65,7 +65,7 @@ const List: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <ContentContainer as="main">
-        <h1>{listName}</h1>
+        <h1 style={{ textTransform: "capitalize" }}>{listName}</h1>
         <CardsContainer>
           {filmsData?.map((film: Movie | Show) => (
             <FilmCard key={film.id} film={film} />
