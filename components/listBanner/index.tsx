@@ -23,7 +23,7 @@ const ListBanner = ({
       <ListBannerContainer>
         <ImageContainer>
           <Image
-            src={`https://image.tmdb.org/t/p/w500${posterPath}`}
+            src={posterPath}
             width="500"
             height="750"
             layout="responsive"

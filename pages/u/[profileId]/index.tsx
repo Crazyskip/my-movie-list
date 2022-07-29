@@ -18,8 +18,12 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 const Profile: NextPage = () => {
   const router = useRouter();
   const { profileId } = router.query;
-  const [watchlistFilm, setWatchlistFilm] = useState({ poster_path: "/" });
-  const [favouritesFilm, setFavouritesFilm] = useState({ poster_path: "/" });
+  const [watchlistFilm, setWatchlistFilm] = useState({
+    poster_path: "/assets/img/blank.webp",
+  });
+  const [favouritesFilm, setFavouritesFilm] = useState({
+    poster_path: "/assets/img/blank.webp",
+  });
 
   const { data: profileData, error } = useSWR(
     `/api/user/${profileId}`,
@@ -28,25 +32,30 @@ const Profile: NextPage = () => {
 
   useEffect(() => {
     if (profileData) {
-      fetch(
-        `/api/${profileData.user.watchlist[0].type}/${profileData.user.watchlist[0].id}`
-      ).then((response) => {
-        if (response.status === 200) {
-          response.json().then((watchlistFilmData) => {
-            setWatchlistFilm(watchlistFilmData);
-            console.log(watchlistFilmData);
-          });
-        }
-      });
-      fetch(
-        `/api/${profileData.user.favourites[0].type}/${profileData.user.favourites[0].id}`
-      ).then((response) => {
-        if (response.status === 200) {
-          response.json().then((favouritesFilm) => {
-            setFavouritesFilm(favouritesFilm);
-          });
-        }
-      });
+      if (profileData.user.watchlist.length > 0) {
+        fetch(
+          `/api/${profileData.user.watchlist[0].type}/${profileData.user.watchlist[0].id}`
+        ).then((response) => {
+          if (response.status === 200) {
+            response.json().then((watchlistFilmData) => {
+              watchlistFilmData.poster_path = `https://image.tmdb.org/t/p/w500${watchlistFilmData.poster_path}`;
+              setWatchlistFilm(watchlistFilmData);
+            });
+          }
+        });
+      }
+      if (profileData.user.favourites.length > 0) {
+        fetch(
+          `/api/${profileData.user.favourites[0].type}/${profileData.user.favourites[0].id}`
+        ).then((response) => {
+          if (response.status === 200) {
+            response.json().then((favouritesFilmData) => {
+              favouritesFilmData.poster_path = `https://image.tmdb.org/t/p/w500${favouritesFilmData.poster_path}`;
+              setFavouritesFilm(favouritesFilmData);
+            });
+          }
+        });
+      }
     }
   }, [profileData]);
 
