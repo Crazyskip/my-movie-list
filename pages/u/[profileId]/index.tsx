@@ -98,10 +98,10 @@ const Profile: NextPage = () => {
       </Head>
       <ContentContainer as="main">
         <h1>
-          Profile{" "}
           {profileData.user.username
             ? profileData.user.username
             : profileData.user.name}
+          &apos;s Profile
         </h1>
         <ListsContainer>
           <ListBanner

@@ -42,7 +42,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           (film: any) => film.id === body.filmId && film.type === body.filmType
         );
 
+        console.log("Updated Watchlist:", user.watchlist);
+
         if (!inList) {
+          // Add film to list
           const updatedUser = await prisma.user.update({
             where: {
               id: session.userId as string,
@@ -58,11 +61,13 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           });
 
           if (updatedUser) {
+            console.log("Updated Watchlist:", updatedUser.watchlist);
             return res
               .status(200)
               .json({ watchlist: updatedUser.watchlist, inList: true });
           }
         } else {
+          // Remove film from list
           const updatedUser = await prisma.user.update({
             where: {
               id: session.userId as string,
