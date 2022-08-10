@@ -4,6 +4,17 @@ import ContentContainer from "../../components/contentContainer";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import styled from "styled-components";
+
+const StyledInput = styled.input`
+  padding: 5px 10px;
+`;
+
+const StyledSubmit = styled.input`
+  padding: 5px 10px;
+  margin: 0 10px;
+  cursor: pointer;
+`;
 
 const NewUser: NextPage = () => {
   const { data: session } = useSession();
@@ -39,13 +50,13 @@ const NewUser: NextPage = () => {
       <ContentContainer as="main">
         <h1>New User</h1>
         <form onSubmit={updateUsername}>
-          <input
+          <StyledInput
             type="text"
-            placeholder="username"
+            placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
-          <input type="submit" value="Set Username" />
+          <StyledSubmit type="submit" value="Set Username" />
         </form>
       </ContentContainer>
     </>
